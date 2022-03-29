@@ -6,6 +6,8 @@ public class GestoreCorsiJava1 {
 		System.out.println("Ciao");
 		System.out.println("Ciao Dallol");
 		System.out.println("Ciao pac");
+		System.out.println("sjkldfhjksdfgjhkdfghjkldfgshjklsdfg");
+		System.out.println("dfkljghsdfjklgh");
 	}
 
 }
