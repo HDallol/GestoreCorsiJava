@@ -5,6 +5,7 @@ public class GestoreCorsiJava1 {
 		// TODO Auto-generated method stub
 		System.out.println("Ciao");
 		System.out.println("Ciao Dallol");
+		System.out.println("Ciao pac");
 	}
 
 }
