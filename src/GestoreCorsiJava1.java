@@ -12,7 +12,10 @@ public class GestoreCorsiJava1 {
 	
 		System.out.println("OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO");
 		
+
+		System.out.println("ehi sus");
 	
+		
 
 
 		
@@ -31,11 +34,15 @@ public class GestoreCorsiJava1 {
 		}
 		
 		
+
 		String sasso = "Basalto";
 		String soldi = "7000 EURI";
 		String banana = "BaNaNa";
 		
 		
+
+		System.out.println("si rompe qualcosa?");
+
 
 	}
 
