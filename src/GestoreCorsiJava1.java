@@ -11,7 +11,7 @@ public class GestoreCorsiJava1 {
 		System.out.println("dfkljghsdfjklgh");
 	
 		System.out.println("OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO");
-	
+		
 	
 
 
@@ -29,6 +29,12 @@ public class GestoreCorsiJava1 {
 		for(int i=0;i<11;i++) {
 			System.out.println("LOL");
 		}
+		
+		
+		String sasso = "Basalto";
+		String soldi = "7000 EURI";
+		String banana = "BaNaNa";
+		
 		
 
 	}
