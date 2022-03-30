@@ -14,8 +14,7 @@ public class GestoreCorsiJava1 {
 		
 		System.out.println("ehi sus");
 	
-	
-
+		
 
 		
 		//Un ciclo for
@@ -32,6 +31,8 @@ public class GestoreCorsiJava1 {
 			System.out.println("LOL");
 		}
 		
+		
+		System.out.println("si rompe qualcosa?");
 
 	}
 
