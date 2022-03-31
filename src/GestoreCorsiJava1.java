@@ -1,49 +1,35 @@
+/*
+ * Autori: Marco Dall'O' Polveni, Stefano Pacchin
+ * 
+ * Versione: 1.0
+ *  
+ *  Un programma che permette la gestione dei corsi di formazione
+ *  di tutti i dipendenti di un'azienda
+ *  
+ *  
+ */
 
-public class GestoreCorsiJava1 {
+import java.awt.Dimension;
+import java.awt.Toolkit;
 
-	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-		System.out.println("Ciao");
-		System.out.println("Ciao Dallol");
-		System.out.println("Ciao pac");
+import javax.swing.JFrame;
 
-		System.out.println("sjkldfhjksdfgjhkdfghjkldfgshjklsdfg");
-		System.out.println("dfkljghsdfjklgh");
+public class GestoreCorsiJava1 extends JFrame{
 	
-		System.out.println("OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO");
-		
-
-		System.out.println("ehi sus");
+	Dimension dimensioniSchermo = Toolkit.getDefaultToolkit().getScreenSize();
+	Dimension dimensioniMinime = new Dimension(200,200);
+	Dimension dimensioniFinestra = new Dimension(dimensioniSchermo.width/2, dimensioniSchermo.height/2);
 	
-		
-
-
-		
-		//Un ciclo for
-		for(int i=0;i<5;i++) {
-			String s = "G"+i;
-			System.out.println(s);
-		}
-		
-		int x = (int) Math.pow(3, 4);
-
-		System.out.println("Solosod");
-		
-		for(int i=0;i<11;i++) {
-			System.out.println("LOL");
-		}
+	public GestoreCorsiJava1() {
+		super("Gestore Corsi di Formazione - V 1.0");
 		
 		
-
-		String sasso = "Basalto";
-		String soldi = "7000 EURI";
-		String banana = "BaNaNa";
-		
-		
-
-		System.out.println("si rompe qualcosa?");
-
-
+		this.setSize(dimensioniFinestra);
+		this.setLocation((dimensioniSchermo.width-dimensioniFinestra.width)/2, (dimensioniSchermo.height-dimensioniFinestra.height)/2);
+		this.setMinimumSize(dimensioniMinime);
+		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		this.setVisible(true);
 	}
+	
 
 }
