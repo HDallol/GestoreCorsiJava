@@ -21,7 +21,7 @@ public class GestoreCorsiJava1 extends JFrame{
 	Dimension dimensioniFinestra = new Dimension(dimensioniSchermo.width/2, dimensioniSchermo.height/2);
 	
 	public GestoreCorsiJava1() {
-		super("Gestore Corsi di Formazione - V 1.0");
+		super("Gestore Corsi di Formazione - Pre-Alpha 0.001");
 		
 		
 		this.setSize(dimensioniFinestra);
