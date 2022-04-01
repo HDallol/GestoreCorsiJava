@@ -39,7 +39,6 @@ public class GestoreCorsiJava1 {
 		String soldi = "7000 EURI";
 		String banana = "BaNaNa";
 		
-		
 
 		System.out.println("si rompe qualcosa?");
 
