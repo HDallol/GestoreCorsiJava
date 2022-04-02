@@ -1,5 +1,5 @@
 
-/*
+/**
  * Autori: Marco Dall'O' Polveni, Stefano Pacchin
  * 
  * Versione: 1.0
