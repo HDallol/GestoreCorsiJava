@@ -1,7 +1,7 @@
 /**
  * Autori: Marco Dall'O' Polveni, Stefano Pacchin
  * 
- * Versione: 1.0
+ * Versione: Pre-Alpha 0.0.1
  *  
  *  Un programma che permette la gestione dei corsi di formazione
  *  di tutti i dipendenti di un'azienda
@@ -30,7 +30,7 @@ public class GestoreCorsiJava1 extends JFrame{
 	MenuInizialeJPanel pnlMenuIniziale;
 	
 	public GestoreCorsiJava1() {
-		super("Gestore Corsi di Formazione - Pre-Alpha 0.001");
+		super("Gestore Corsi di Formazione - Pre-Alpha 0.0.1");
 		
 		pnlDefault = new JPanel(new GridLayout(1,1));
 		pnlMenuIniziale = new MenuInizialeJPanel();
