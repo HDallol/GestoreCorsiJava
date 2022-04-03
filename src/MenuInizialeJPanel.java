@@ -2,6 +2,7 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
@@ -14,6 +15,11 @@ import javax.swing.JCheckBox;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JTextField;
+import javax.swing.SwingConstants;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
+
 import java.util.ArrayList;
 
 /**
@@ -24,11 +30,16 @@ import java.util.ArrayList;
  */
 public class MenuInizialeJPanel extends JPanel{
 
+	Font fontDefault = new Font("Calibri", Font.PLAIN, 15);
 
 	private JPanel pnlRicerca;
 	private JPanel pnlFiltri;
 	private JPanel pnlAggiungi;
 
+	JTextField txtBarraRicerca;
+	CustomJButton btnAggiungi;
+	JLabel lblTextoIniziale;
+	
 	/**
 	 * Una raccolta dei filtri
 	 */
@@ -45,6 +56,7 @@ public class MenuInizialeJPanel extends JPanel{
 	private Color temaBackground = new Color(210,210,210);
 	private Color temaFont = Color.BLACK;
 	
+	
 	public MenuInizialeJPanel() {
 		super(new BorderLayout());
 
@@ -52,16 +64,36 @@ public class MenuInizialeJPanel extends JPanel{
 		pnlFiltri = new JPanel();
 		pnlAggiungi = new JPanel(new GridLayout(1,1));
 
+		txtBarraRicerca = new JTextField();
+		btnAggiungi = new CustomJButton("+",1.5,fontDefault);
+		lblTextoIniziale = new JLabel("Premi + per aggiungere");
+		
 		pnlFiltri.setLayout(new BoxLayout(pnlFiltri, BoxLayout.Y_AXIS));
 
 		arrayJLabel = new ArrayList<JLabel>();
+	
+		txtBarraRicerca.setBorder(BorderFactory.createLineBorder(temaFont, 1));
+		txtBarraRicerca.setFont(fontDefault);
+		lblTextoIniziale.setFont(fontDefault.deriveFont(50.0f));
+		lblTextoIniziale.setHorizontalAlignment(SwingConstants.CENTER);
+		lblTextoIniziale.setVerticalAlignment(SwingConstants.CENTER);
+		btnAggiungi.setPreferredSize(new Dimension(40,40));		//La preferred Size del bottone +, da cambiare nel caso
 		
-		//pnlFiltri.setBackground(Color.RED);
-
+		txtBarraRicerca.getDocument().addDocumentListener(new AreaDiTestoListener(txtBarraRicerca, "Cerca...", fontDefault));
+		txtBarraRicerca.addComponentListener(new FontAdj(fontDefault, 1.5));
+		lblTextoIniziale.addComponentListener(new FontAdj(fontDefault, 8, 60,30));
+		
 		filtri();
 		
-		cambiaColore(temaBackground, temaFont);
+		pnlRicerca.add(txtBarraRicerca, BorderLayout.CENTER);
+		pnlRicerca.add(btnAggiungi, BorderLayout.EAST);
+		pnlRicerca.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+		pnlFiltri.setBorder(BorderFactory.createMatteBorder(0, 0, 0, 1, temaBackground.darker().darker()));
 		
+		pnlAggiungi.add(lblTextoIniziale);
+		
+		cambiaColore(temaBackground, temaFont);
+	
 		this.add(pnlRicerca, BorderLayout.NORTH);
 		this.add(pnlFiltri, BorderLayout.WEST);
 		this.add(pnlAggiungi, BorderLayout.CENTER);
@@ -101,7 +133,7 @@ public class MenuInizialeJPanel extends JPanel{
 				@Override
 				public void actionPerformed(ActionEvent e) {
 					// TODO Auto-generated method stub
-					JCheckBox cb = (JCheckBox) e.getSource();
+					CustomJCheckBox cb = (CustomJCheckBox) e.getSource();
 					
 					if(cb.isSelected())
 						System.out.println("Hello "+cb.getName());
@@ -120,7 +152,7 @@ public class MenuInizialeJPanel extends JPanel{
 	private void aggiungiFiltro(int indiceFiltro, ActionListener azioneFiltro) {
 
 		//for(int i=0; i<arrayFiltri.length;i++) {
-		JCheckBox cbFiltro1 = new JCheckBox();
+		CustomJCheckBox cbFiltro1 = new CustomJCheckBox();
 		cbFiltro1.setName(""+indiceFiltro);
 
 		JPanel pnl1 = new JPanel(new BorderLayout());
@@ -128,13 +160,15 @@ public class MenuInizialeJPanel extends JPanel{
 		
 		arrayJLabel.add(lbl1);
 		
+		lbl1.addComponentListener(new FontAdj(fontDefault, 2));
+		lbl1.setVerticalAlignment(SwingConstants.CENTER);
 		cbFiltro1.addActionListener(azioneFiltro);
 
 		cbFiltro1.setOpaque(false);
 
 		pnl1.setMaximumSize(new Dimension(200,40));
 		pnl1.setOpaque(false);
-		pnl1.setBorder(BorderFactory.createEmptyBorder(0, 5, 0, 5));
+		pnl1.setBorder(BorderFactory.createEmptyBorder(0, 10, 0, 10));
 		pnl1.add(cbFiltro1, BorderLayout.WEST);
 		pnl1.add(lbl1, BorderLayout.CENTER);
 
@@ -143,6 +177,7 @@ public class MenuInizialeJPanel extends JPanel{
 	}
 	
 
+	
 	
 
 }
