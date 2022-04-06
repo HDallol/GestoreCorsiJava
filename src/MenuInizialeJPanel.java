@@ -30,15 +30,15 @@ import java.util.ArrayList;
  */
 public class MenuInizialeJPanel extends JPanel{
 
-	Font fontDefault = new Font("Calibri", Font.PLAIN, 15);
+	private Font fontDefault = new Font("Calibri", Font.PLAIN, 15);
 
 	private JPanel pnlRicerca;
 	private JPanel pnlFiltri;
 	private JPanel pnlAggiungi;
 
-	JTextField txtBarraRicerca;
-	CustomJButton btnAggiungi;
-	JLabel lblTextoIniziale;
+	private JTextField txtBarraRicerca;
+	private CustomJButton btnAggiungi;
+	private JLabel lblTextoIniziale;
 	
 	/**
 	 * Una raccolta dei filtri
@@ -56,10 +56,13 @@ public class MenuInizialeJPanel extends JPanel{
 	private Color temaBackground = new Color(210,210,210);
 	private Color temaFont = Color.BLACK;
 	
+	private GestoreCorsiJava1 gestoreCorsi;
 	
-	public MenuInizialeJPanel() {
+	public MenuInizialeJPanel(GestoreCorsiJava1 gcj1) {
 		super(new BorderLayout());
 
+		gestoreCorsi = gcj1;		//link al GestoreCorsiJava1: da qui posso recuperare tutti i jpanel custom e l'array di lavoratore
+		
 		pnlRicerca = new JPanel(new BorderLayout());
 		pnlFiltri = new JPanel();
 		pnlAggiungi = new JPanel(new GridLayout(1,1));
@@ -93,7 +96,8 @@ public class MenuInizialeJPanel extends JPanel{
 		pnlAggiungi.add(lblTextoIniziale);
 		
 		cambiaColore(temaBackground, temaFont);
-	
+		
+		
 		this.add(pnlRicerca, BorderLayout.NORTH);
 		this.add(pnlFiltri, BorderLayout.WEST);
 		this.add(pnlAggiungi, BorderLayout.CENTER);
