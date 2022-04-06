@@ -28,7 +28,7 @@ import java.util.ArrayList;
  * @author Marco
  *
  */
-public class MenuInizialeJPanel extends JPanel{
+public class MenuInizialeJPanel extends JPanel {
 
 	private Font fontDefault = new Font("Calibri", Font.PLAIN, 15);
 

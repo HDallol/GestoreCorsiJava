@@ -17,7 +17,7 @@ import java.util.ArrayList;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
-public class GestoreCorsiJava1 extends JFrame{
+public class GestoreCorsiJava1 extends JFrame {
 	
 	private Dimension dimensioniSchermo = Toolkit.getDefaultToolkit().getScreenSize();
 	private Dimension dimensioniMinime = new Dimension(200,200);
