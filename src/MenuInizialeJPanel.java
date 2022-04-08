@@ -85,6 +85,7 @@ public class MenuInizialeJPanel extends JPanel {
 		txtBarraRicerca.getDocument().addDocumentListener(new AreaDiTestoListener(txtBarraRicerca, "Cerca...", fontDefault));
 		txtBarraRicerca.addComponentListener(new FontAdj(fontDefault, 1.5));
 		lblTextoIniziale.addComponentListener(new FontAdj(fontDefault, 8, 60,30));
+		btnAggiungi.addActionListener(new GestioneAggiungi());
 		
 		filtri();
 		
@@ -181,7 +182,18 @@ public class MenuInizialeJPanel extends JPanel {
 	}
 	
 
-	
+	public class GestioneAggiungi implements ActionListener {
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			// TODO Auto-generated method stub
+			gestoreCorsi.getPnlDefault().removeAll();
+			gestoreCorsi.getPnlDefault().add(gestoreCorsi.getMenuAggiungiLavoratore());
+			gestoreCorsi.getPnlDefault().revalidate();
+			gestoreCorsi.getPnlDefault().repaint();
+		}
+		
+	}
 	
 
 }

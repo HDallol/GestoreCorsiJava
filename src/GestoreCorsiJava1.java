@@ -56,6 +56,7 @@ public class GestoreCorsiJava1 extends JFrame {
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setVisible(true);
 		
+		this.requestFocus();
 	}
 	
 	
@@ -69,6 +70,10 @@ public class GestoreCorsiJava1 extends JFrame {
 	
 	public MenuInizialeJPanel getPnlMenuIniziale() {
 		return pnlMenuIniziale;
+	}
+	
+	public MenuAggiungiLavoratore getMenuAggiungiLavoratore() {
+		return pnlMenuAggiungiLavoratore;
 	}
 	
 }
