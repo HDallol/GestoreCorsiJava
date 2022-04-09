@@ -11,5 +11,9 @@ public class CustomJComboBox extends JComboBox{
 	public CustomJComboBox() {
 		super();
 	}
+
+	public CustomJComboBox(String[] arrayQualifiche) {
+		super(arrayQualifiche);
+	}
 	
 }

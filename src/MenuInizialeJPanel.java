@@ -15,6 +15,7 @@ import javax.swing.JCheckBox;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.event.DocumentEvent;
@@ -34,74 +35,115 @@ public class MenuInizialeJPanel extends JPanel {
 
 	private JPanel pnlRicerca;
 	private JPanel pnlFiltri;
-	private JPanel pnlAggiungi;
+	private ScrollPaneJPanel pnlAggiungi;
 
 	private JTextField txtBarraRicerca;
 	private CustomJButton btnAggiungi;
 	private JLabel lblTextoIniziale;
-	
+	private JScrollPane spListaLavoratori;
+
 	/**
 	 * Una raccolta dei filtri
 	 */
 	private String[] arrayFiltri = {"Prova", "Prova1" , "Banana", "!!!"};
-	
+
 	/**
 	 * Una raccolta di label, in modo da poter poi cambiarne il colore facilmente
 	 */
 	ArrayList<JLabel> arrayJLabel;
-	
+
 	/**
 	 * Temi di default
 	 */
 	private Color temaBackground = new Color(210,210,210);
 	private Color temaFont = Color.BLACK;
-	
+
 	private GestoreCorsiJava1 gestoreCorsi;
-	
+
 	public MenuInizialeJPanel(GestoreCorsiJava1 gcj1) {
 		super(new BorderLayout());
 
 		gestoreCorsi = gcj1;		//link al GestoreCorsiJava1: da qui posso recuperare tutti i jpanel custom e l'array di lavoratore
-		
+
 		pnlRicerca = new JPanel(new BorderLayout());
 		pnlFiltri = new JPanel();
-		pnlAggiungi = new JPanel(new GridLayout(1,1));
+		pnlAggiungi = new ScrollPaneJPanel();
 
 		txtBarraRicerca = new JTextField();
 		btnAggiungi = new CustomJButton("+",1.5,fontDefault);
 		lblTextoIniziale = new JLabel("Premi + per aggiungere");
-		
+
 		pnlFiltri.setLayout(new BoxLayout(pnlFiltri, BoxLayout.Y_AXIS));
 
 		arrayJLabel = new ArrayList<JLabel>();
-	
+
+		spListaLavoratori = new JScrollPane();
 		txtBarraRicerca.setBorder(BorderFactory.createLineBorder(temaFont, 1));
 		txtBarraRicerca.setFont(fontDefault);
 		lblTextoIniziale.setFont(fontDefault.deriveFont(50.0f));
 		lblTextoIniziale.setHorizontalAlignment(SwingConstants.CENTER);
 		lblTextoIniziale.setVerticalAlignment(SwingConstants.CENTER);
 		btnAggiungi.setPreferredSize(new Dimension(40,40));		//La preferred Size del bottone +, da cambiare nel caso
-		
+
 		txtBarraRicerca.getDocument().addDocumentListener(new AreaDiTestoListener(txtBarraRicerca, "Cerca...", fontDefault));
 		txtBarraRicerca.addComponentListener(new FontAdj(fontDefault, 1.5));
 		lblTextoIniziale.addComponentListener(new FontAdj(fontDefault, 8, 60,30));
 		btnAggiungi.addActionListener(new GestioneAggiungi());
-		
+		pnlAggiungi.setBorder(BorderFactory.createEmptyBorder(0, 5, 0, 5));		
 		filtri();
-		
+	
 		pnlRicerca.add(txtBarraRicerca, BorderLayout.CENTER);
 		pnlRicerca.add(btnAggiungi, BorderLayout.EAST);
 		pnlRicerca.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 		pnlFiltri.setBorder(BorderFactory.createMatteBorder(0, 0, 0, 1, temaBackground.darker().darker()));
-		
-		pnlAggiungi.add(lblTextoIniziale);
+
+		//pnlAggiungi.add(lblTextoIniziale);
+		pnlAggiungi.aggiornaPanel();
 		
 		cambiaColore(temaBackground, temaFont);
-		
-		
+
+
 		this.add(pnlRicerca, BorderLayout.NORTH);
 		this.add(pnlFiltri, BorderLayout.WEST);
 		this.add(pnlAggiungi, BorderLayout.CENTER);
+	}
+
+	public void aggiungiScrollPane() {
+		pnlAggiungi.removeAll();
+
+		int righe = 0;
+		if(gestoreCorsi.getArrayLavoratori().size()<5)
+			righe=5;
+		else
+			righe=gestoreCorsi.getArrayLavoratori().size();
+
+		JPanel pnlLavoratore = new JPanel(new GridLayout(righe,1,3,3));
+		pnlLavoratore.setBackground(temaBackground);
+		
+		for(int i=0;i<gestoreCorsi.getArrayLavoratori().size();i++) {
+
+			JPanel pnl = new JPanel(new GridLayout(1,2));
+			System.out.println("::: "+gestoreCorsi.getArrayLavoratori().get(i).getNome()+" "+gestoreCorsi.getArrayLavoratori().get(i).getCognome());
+			JLabel lbl = new JLabel(gestoreCorsi.getArrayLavoratori().get(i).getNome()+" "+gestoreCorsi.getArrayLavoratori().get(i).getCognome());
+			lbl.setBorder(BorderFactory.createLineBorder(Color.BLACK, 1));
+			pnl.add(lbl);
+			pnl.setBackground(Color.WHITE);
+			pnl.setPreferredSize(new Dimension(100,80));		//DA MODIFICARE NEL CASO
+			pnlLavoratore.add(pnl);
+
+			
+			System.out.println(i);
+		}
+
+		spListaLavoratori = new JScrollPane(pnlLavoratore);
+		spListaLavoratori.setBorder(null);
+		pnlAggiungi.add(spListaLavoratori);
+
+	}
+
+
+	public ScrollPaneJPanel getScrollPanePnl() {
+		return pnlAggiungi;
 	}
 
 	/**
@@ -114,24 +156,24 @@ public class MenuInizialeJPanel extends JPanel {
 	public void cambiaColore(Color temaBackground, Color temaFont) {
 		this.temaBackground = temaBackground;
 		this.temaFont = temaFont;
-		
+
 		this.setBackground(temaBackground);
 		pnlRicerca.setBackground(temaBackground);
 		pnlFiltri.setBackground(temaBackground);
 		pnlAggiungi.setBackground(temaBackground);
-		
+
 		for(int i=0;i<arrayJLabel.size();i++) {
 			arrayJLabel.get(i).setForeground(temaFont);
 		}
-		
+
 	}
-	
+
 	/**
 	 * Aggiunge tutti i filtri dell'arrayFiltri nel pannello
 	 */
 	private void filtri() {
-		
-	
+
+
 		for(int i=0;i<arrayFiltri.length;i++) {
 			aggiungiFiltro(i, new ActionListener() {
 
@@ -139,11 +181,11 @@ public class MenuInizialeJPanel extends JPanel {
 				public void actionPerformed(ActionEvent e) {
 					// TODO Auto-generated method stub
 					CustomJCheckBox cb = (CustomJCheckBox) e.getSource();
-					
+
 					if(cb.isSelected())
 						System.out.println("Hello "+cb.getName());
 				}
-				
+
 			});
 		}
 	}
@@ -162,9 +204,9 @@ public class MenuInizialeJPanel extends JPanel {
 
 		JPanel pnl1 = new JPanel(new BorderLayout());
 		JLabel lbl1 = new JLabel(arrayFiltri[indiceFiltro]);
-		
+
 		arrayJLabel.add(lbl1);
-		
+
 		lbl1.addComponentListener(new FontAdj(fontDefault, 2));
 		lbl1.setVerticalAlignment(SwingConstants.CENTER);
 		cbFiltro1.addActionListener(azioneFiltro);
@@ -180,20 +222,71 @@ public class MenuInizialeJPanel extends JPanel {
 		pnlFiltri.add(pnl1);
 
 	}
-	
+
 
 	public class GestioneAggiungi implements ActionListener {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			// TODO Auto-generated method stub
+			gestoreCorsi.getMenuAggiungiLavoratore().reset();
 			gestoreCorsi.getPnlDefault().removeAll();
 			gestoreCorsi.getPnlDefault().add(gestoreCorsi.getMenuAggiungiLavoratore());
 			gestoreCorsi.getPnlDefault().revalidate();
 			gestoreCorsi.getPnlDefault().repaint();
 		}
+
+	}
+
+	public class ScrollPaneJPanel extends JPanel {
+		
+		public ScrollPaneJPanel() {
+			super();
+		}
+		
+		public void aggiornaPanel() {
+			
+			ArrayList<Lavoratore> arr = gestoreCorsi.getArrayLavoratori();
+			this.removeAll();
+			
+			if(arr.size()==0) {
+				this.setLayout(new GridLayout(1,1));
+				this.add(lblTextoIniziale);
+			}
+			else {
+				
+				int righe = 0;
+				if(gestoreCorsi.getArrayLavoratori().size()<5)
+					righe=5;
+				else
+					righe=gestoreCorsi.getArrayLavoratori().size();
+
+				JPanel pnlLavoratore = new JPanel(new GridLayout(righe,1,3,3));
+				pnlLavoratore.setBackground(temaBackground);
+				
+				for(int i=0;i<gestoreCorsi.getArrayLavoratori().size();i++) {
+
+					JPanel pnl = new JPanel(new GridLayout(1,2));
+					JLabel lbl = new JLabel(gestoreCorsi.getArrayLavoratori().get(i).getNome()+" "+gestoreCorsi.getArrayLavoratori().get(i).getCognome());
+					lbl.setBorder(BorderFactory.createEmptyBorder(0, 10, 0, 10));
+					lbl.addComponentListener(new FontAdj(fontDefault,3));
+					pnl.add(lbl);
+					pnl.setBackground(Color.WHITE);
+					pnl.setBorder(BorderFactory.createLineBorder(Color.BLACK, 1));
+					pnl.setPreferredSize(new Dimension(100,80));		//DA MODIFICARE NEL CASO
+					pnlLavoratore.add(pnl);
+
+				}
+
+				spListaLavoratori = new JScrollPane(pnlLavoratore);
+				spListaLavoratori.setBorder(null);
+				this.add(spListaLavoratori);
+				
+			}
+			
+			
+		}
 		
 	}
 	
-
 }
