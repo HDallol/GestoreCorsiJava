@@ -22,7 +22,7 @@ import javax.swing.JTextField;
  * @author Marco
  *
  */
-public class MenuAggiungiLavoratore extends JPanel{
+public class MenuAggiungiLavoratoreJPanel extends JPanel{
 
 	private GestoreCorsiJava1 gestoreCorsi;
 
@@ -35,7 +35,7 @@ public class MenuAggiungiLavoratore extends JPanel{
 	private String arrayQualifiche[] = {"Maggiordomo","Il ritardato","L'aiutante","Altro"};
 	private ArrayList<CorsoDiFormazione> corsiDiFormazione;
 
-	public MenuAggiungiLavoratore(GestoreCorsiJava1 gcj1) {
+	public MenuAggiungiLavoratoreJPanel(GestoreCorsiJava1 gcj1) {
 
 		gestoreCorsi = gcj1;
 		this.setLayout(new GridLayout(6,2,10,10));
@@ -165,8 +165,13 @@ public class MenuAggiungiLavoratore extends JPanel{
 					System.out.println("Nel dubbio, la qualifica: "+qualifica);
 					
 					gestoreCorsi.getArrayLavoratori().add(new Lavoratore(cognome,nome,codiceFiscale,indirizzo,qualifica));
-					System.out.println(gestoreCorsi.getArrayLavoratori().size());
-					gestoreCorsi.getPnlMenuIniziale().getScrollPanePnl().aggiornaPanel();
+					//gestoreCorsi.getPnlMenuIniziale().getScrollPanePnl().aggiornaPanel();
+					
+					txtNome.setText("");
+					txtCognome.setText("");
+					txtIndirizzo.setText("");
+					txtCodiceFiscale.setText("");
+					cbQualifica.setSelectedIndex(0);
 				}
 				
 			}
@@ -181,6 +186,7 @@ public class MenuAggiungiLavoratore extends JPanel{
 		public void actionPerformed(ActionEvent e) {
 			// TODO Auto-generated method stub
 			gestoreCorsi.getPnlDefault().removeAll();
+			gestoreCorsi.getPnlMenuIniziale().reset();
 			gestoreCorsi.getPnlDefault().add(gestoreCorsi.getPnlMenuIniziale());
 			gestoreCorsi.getPnlDefault().revalidate();
 			gestoreCorsi.getPnlDefault().repaint();

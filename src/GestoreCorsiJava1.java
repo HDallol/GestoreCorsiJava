@@ -29,7 +29,7 @@ public class GestoreCorsiJava1 extends JFrame {
 	private JPanel pnlDefault;
 	
 	private MenuInizialeJPanel pnlMenuIniziale;
-	private MenuAggiungiLavoratore pnlMenuAggiungiLavoratore;
+	private MenuAggiungiLavoratoreJPanel pnlMenuAggiungiLavoratore;
 	
 	/**
 	 * E qui verranno salvati tutti i lavoratori ecc
@@ -43,7 +43,7 @@ public class GestoreCorsiJava1 extends JFrame {
 		
 		pnlDefault = new JPanel(new GridLayout(1,1));
 		pnlMenuIniziale = new MenuInizialeJPanel(this);
-		pnlMenuAggiungiLavoratore = new MenuAggiungiLavoratore(this);
+		pnlMenuAggiungiLavoratore = new MenuAggiungiLavoratoreJPanel(this);
 		
 		pnlDefault.add(pnlMenuIniziale);
 		this.getContentPane().add(pnlDefault);
@@ -72,7 +72,7 @@ public class GestoreCorsiJava1 extends JFrame {
 		return pnlMenuIniziale;
 	}
 	
-	public MenuAggiungiLavoratore getMenuAggiungiLavoratore() {
+	public MenuAggiungiLavoratoreJPanel getMenuAggiungiLavoratore() {
 		return pnlMenuAggiungiLavoratore;
 	}
 	
