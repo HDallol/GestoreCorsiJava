@@ -13,13 +13,21 @@ public class CorsoDiFormazione {
 	public static int VALIDO = 0;
 	public static int IN_SCADENZA = 1;
 	public static int SCADUTO = 2;
-
+	
+	public final static int GENERALE=0;
+	public final static int SPECIFICA=1;
+	public final static int PREPOSTO=2;
+	public final static int QUINQUIENNALE=3;
 
 	private String nomeCorso;
 	private String data;
 	private int nOre;
 	private int scadenzaAnni;
 	private int stato;
+	/**
+	 * GENERALE, SPECIFICA, PREPOSTO o QUINQUIENNALE
+	 */
+	private int tipologia;
 
 	
 	public CorsoDiFormazione() {
@@ -27,6 +35,7 @@ public class CorsoDiFormazione {
 		data = null;
 		nOre = 0;
 		stato = VALIDO;
+		this.tipologia=0;
 	}
 
 	/**
@@ -36,7 +45,7 @@ public class CorsoDiFormazione {
 	 * @param nOre il numero di ore che certifica il corso
 	 * @param scadenzaAnni il numero di anni che devono passare prima che il corso scadi
 	 */
-	public CorsoDiFormazione(String nomeCorso, String data, int nOre, int scadenzaAnni) {
+	public CorsoDiFormazione(String nomeCorso, String data, int nOre, int scadenzaAnni, int tipologia) {
 
 		this.nomeCorso = nomeCorso;
 		this.data = data;
@@ -45,10 +54,19 @@ public class CorsoDiFormazione {
 		else
 			this.nOre = 1;
 		
+		this.tipologia = tipologia;
+		
+		if(this.tipologia>3 || this.tipologia<3)
+			this.tipologia = 0;
+		
 		aggiornaStato();
 
 	}
 
+	
+	public int getTipologia() {
+		return tipologia;
+	}
 	
 	/**
 	 * @return the nomeCorso
