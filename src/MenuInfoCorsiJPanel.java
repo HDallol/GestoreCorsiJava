@@ -72,6 +72,12 @@ public class MenuInfoCorsiJPanel extends JPanel {
 
 	private GestoreCorsiJava1 gestoreCorsi;
 
+	/**
+	 * 
+	 * @param gcj1 il GestoreCorsi
+	 * @param lavoratore il lavoratore su cui stiamo lavorando
+	 * @param tipologia tipologia tra GENERALE, SPECIFICA, PREPOSTO o QUINQUIENNALE
+	 */
 	public MenuInfoCorsiJPanel(GestoreCorsiJava1 gcj1, Lavoratore lavoratore, int tipologia) {
 		super(new BorderLayout());
 
@@ -212,7 +218,10 @@ public class MenuInfoCorsiJPanel extends JPanel {
 		public void actionPerformed(ActionEvent e) {
 			// TODO Auto-generated method stub
 			
-			
+			gestoreCorsi.getPnlDefault().removeAll();
+			gestoreCorsi.getPnlDefault().add(new MenuAggiungiCorsoJPanel(gestoreCorsi,tipologia, lavoratore));
+			gestoreCorsi.getPnlDefault().revalidate();
+			gestoreCorsi.getPnlDefault().repaint();
 		}
 
 	}

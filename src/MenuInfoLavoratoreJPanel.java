@@ -37,7 +37,11 @@ public class MenuInfoLavoratoreJPanel extends JPanel{
 	
 	private Font fontDefault = new Font("Calibri", Font.PLAIN, 15);
 
-	
+	/**
+	 * 
+	 * @param gcj1 il gestore corsi java
+	 * @param index indice del lavoratore
+	 */
 	public MenuInfoLavoratoreJPanel(GestoreCorsiJava1 gcj1, int index) {
 		
 		this.index = index;
