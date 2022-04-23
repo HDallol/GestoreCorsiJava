@@ -37,7 +37,7 @@ public class GestoreCorsiJava1 extends JFrame {
 	private ArrayList<Lavoratore> arrayLavoratori;
 	
 	public GestoreCorsiJava1() {
-		super("Gestore Corsi di Formazione - Pre-Alpha 0.0.1");
+		super("Gestore Corsi di Formazione - Alpha 0.2");
 		
 		arrayLavoratori = new ArrayList<Lavoratore>();
 		

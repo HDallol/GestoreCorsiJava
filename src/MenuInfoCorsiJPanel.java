@@ -2,6 +2,7 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.Graphics;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -56,6 +57,9 @@ public class MenuInfoCorsiJPanel extends JPanel {
 	private JLabel lblTextoIniziale;
 	private JScrollPane spListaCorsi;
 
+	/**
+	 * Array che contiene i corsi specifici di una tipologia da rappresentare a schermo
+	 */
 	private ArrayList<CorsoDiFormazione> arrCorsi;
 	
 
@@ -85,11 +89,14 @@ public class MenuInfoCorsiJPanel extends JPanel {
 
 		this.lavoratore = lavoratore;
 		this.tipologia = tipologia;
+		
+		
 		arrCorsi = new ArrayList<CorsoDiFormazione>();
 		
 		for(int i=0;i<lavoratore.getCorsiDiFormazioni().size();i++) {
 			if(lavoratore.getCorsiDiFormazioni().get(i).getTipologia()==tipologia) {
 				arrCorsi.add(lavoratore.getCorsiDiFormazioni().get(i));
+				System.out.println("Array indice del corso: "+i);
 			}
 		}
 		
@@ -134,8 +141,10 @@ public class MenuInfoCorsiJPanel extends JPanel {
 
 		cambiaColore(temaBackground, temaFont);
 
+		pnlIndietro.setOpaque(false);
 		pnlIndietro.add(btnIndietro);
 		pnlIndietro.add(Box.createGlue());
+	
 		
 		this.add(pnlRicerca, BorderLayout.NORTH);
 		this.add(pnlAggiungi, BorderLayout.CENTER);
@@ -229,7 +238,8 @@ public class MenuInfoCorsiJPanel extends JPanel {
 	public class ScrollPaneJPanel extends JPanel {
 
 		public ScrollPaneJPanel() {
-			super();
+			super(new GridLayout(1,1));
+			
 		}
 
 		public void aggiornaPanel() {
@@ -405,13 +415,20 @@ public class MenuInfoCorsiJPanel extends JPanel {
 			Color temaMouseEntered;
 			CustomJButton btnCancella;
 			JLabel lbl;
-
+			AvvisoScadenzaJPanel avvisoScadenzaPnl;
+			
 			public CorsoPnl(int index) {
 
 				this.setLayout(new BorderLayout());
+				
+				JPanel pnlCenter = new JPanel(new BorderLayout());
+				avvisoScadenzaPnl = new AvvisoScadenzaJPanel(arrCorsi.get(index).getStato());
+				
 				this.index = index;
-				lbl = new JLabel(gestoreCorsi.getArrayLavoratori().get(index).getCognome()+" "+gestoreCorsi.getArrayLavoratori().get(index).getNome());
+				
+				lbl = new JLabel(arrCorsi.get(index).getNomeCorso());
 				btnCancella = new CustomJButton("X",2);
+				
 				lbl.setBorder(BorderFactory.createEmptyBorder(0, 10, 0, 10));
 				lbl.addComponentListener(new FontAdj(fontDefault,3));
 
@@ -420,13 +437,19 @@ public class MenuInfoCorsiJPanel extends JPanel {
 
 				btnCancella.setPreferredSize(new Dimension((int) (this.getWidth()*0.1), this.getHeight()));
 				btnCancella.addActionListener(new GestioneCancella());
+				
 				cambiaColore(temaSfondo, temaMouseEntered);
 
 				this.setBorder(BorderFactory.createLineBorder(Color.BLACK, 1));
 				this.setPreferredSize(new Dimension(100,80));
+				
+				pnlCenter.setOpaque(false);
+				pnlCenter.add(lbl,BorderLayout.CENTER);
+				pnlCenter.add(avvisoScadenzaPnl, BorderLayout.EAST);
+				
 				this.addMouseListener(this);
 				this.addComponentListener(this);
-				this.add(lbl, BorderLayout.CENTER);
+				this.add(pnlCenter, BorderLayout.CENTER);
 				this.add(btnCancella, BorderLayout.EAST);
 			}
 
@@ -477,6 +500,7 @@ public class MenuInfoCorsiJPanel extends JPanel {
 			public void componentResized(ComponentEvent e) {
 				// TODO Auto-generated method stub
 				btnCancella.setPreferredSize(new Dimension((int) (this.getWidth()*0.1), this.getHeight()));
+				avvisoScadenzaPnl.setPreferredSize(new Dimension((int) (this.getWidth()*0.1), this.getHeight()));
 			}
 
 			@Override
@@ -503,12 +527,57 @@ public class MenuInfoCorsiJPanel extends JPanel {
 				@Override
 				public void actionPerformed(ActionEvent e) {
 					// TODO Auto-generated method stub
-				
+					lavoratore.getCorsiDiFormazioni().remove(arrCorsi.get(index));
+					arrCorsi.remove(index);
+					pnlAggiungi.aggiornaPanel();
+					pnlAggiungi.revalidate();
+					pnlAggiungi.repaint();
 				}
 
 			}
 
+			
+			public class AvvisoScadenzaJPanel extends JPanel {
+				
+				private double grandezzaCerchio;
+				private int stato;
+				private Color colore;
+				
+				public AvvisoScadenzaJPanel(int stato) {
+					this.setOpaque(false);
+					grandezzaCerchio = 0.6;			//LA GRANDEZZA DEL CERCHIO COLORATO: Da 0 a 1
+
+					this.stato = stato;
+					
+					if(stato==CorsoDiFormazione.VALIDO) {
+						colore = Color.GREEN;
+					}
+					else if(stato==CorsoDiFormazione.IN_SCADENZA) {
+						colore = Color.ORANGE;
+					}
+					else {
+						colore = Color.RED;
+					}
+					
+				}
+				
+				@Override
+				protected void paintComponent(Graphics g) {
+					super.paintComponent(g);
+					g.setColor(colore);
+					g.fillOval((int) (this.getWidth()-this.getHeight()*grandezzaCerchio)/2, (int) (this.getHeight()-this.getHeight()*grandezzaCerchio)/2,
+							(int) (this.getHeight()*grandezzaCerchio),(int) (this.getHeight()*grandezzaCerchio));
+					
+
+				}
+
+				
+			}
+			
 		}
+		
+		
+		
 
 	}
 

@@ -78,6 +78,8 @@ public class MenuInfoLavoratoreJPanel extends JPanel{
 		lblNome.addComponentListener(new FontAdj(fontDefault,2.5));
 		lblQualifica.addComponentListener(new FontAdj(fontDefault,2.5));
 		
+		pnlIndietro.setOpaque(false);
+		
 		pnlInfo.add(lblCognome);
 		pnlInfo.add(lblNome);
 		pnlInfo.add(lblCodiceFis);
@@ -158,7 +160,7 @@ public class MenuInfoLavoratoreJPanel extends JPanel{
 			}
 			
 			tipologia = tipologia1;
-			
+						
 			lbl = new JLabel(s);
 
 			lbl.setBorder(BorderFactory.createEmptyBorder(0, 10, 0, 10));

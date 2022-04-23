@@ -55,8 +55,9 @@ public class CorsoDiFormazione {
 			this.nOre = 1;
 		
 		this.tipologia = tipologia;
+		this.scadenzaAnni = scadenzaAnni;
 		
-		if(this.tipologia>3 || this.tipologia<3)
+		if(this.tipologia>3 || this.tipologia<0)
 			this.tipologia = 0;
 		
 		aggiornaStato();
@@ -152,7 +153,7 @@ public class CorsoDiFormazione {
 			long tempo = g2.getTimeInMillis()-g1.getTimeInMillis();
 			
 			long giorniDiff = ((((tempo/1000)/60)/60)/24);	//differenza in giorni
-			
+		
 			if(giorniDiff > scadenzaAnni*365) {
 				stato=SCADUTO;
 			}
