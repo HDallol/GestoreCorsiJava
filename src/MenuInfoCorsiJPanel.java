@@ -100,15 +100,36 @@ public class MenuInfoCorsiJPanel extends JPanel {
 			}
 		}
 		
+		String s = "";
+		
+		switch(tipologia) {
+		case GENERALE:
+			s= "Formazione Generale";
+			break;
+		case SPECIFICA:
+			s = "Formazione Specifica";
+			break;
+		case PREPOSTO:
+			s = "Formazione Preposto";
+			break;
+		case QUINQUIENNALE:
+			s = "Aggiornamenti Quinquiennale";
+			break;
+		}
+		
+		JLabel lblTipoCorso = new JLabel(s);
+		lblTipoCorso.addComponentListener(new FontAdj(fontDefault.deriveFont(Font.ITALIC),2));
+		lblTipoCorso.setPreferredSize(new Dimension(300,45));
 		
 		pnlRicerca = new JPanel(new BorderLayout());
+		JPanel pnlTipoCorso = new JPanel(new GridLayout(1,1));
+		JPanel pnlIndietro = new JPanel(new GridLayout(1,2,10,10));
 		pnlAggiungi = new ScrollPaneJPanel();
 
 		txtBarraRicerca = new JTextField();
 		btnAggiungi = new CustomJButton("+",1.5,fontDefault);
 		lblTextoIniziale = new JLabel("Premi + per aggiungere");
 		
-		JPanel pnlIndietro = new JPanel(new GridLayout(1,2,10,10));
 		
 		CustomJButton btnIndietro = new CustomJButton("Indietro");
 		btnIndietro.addActionListener(new GestioneIndietro());
@@ -131,7 +152,9 @@ public class MenuInfoCorsiJPanel extends JPanel {
 		btnAggiungi.addActionListener(new GestioneAggiungi());
 		pnlAggiungi.setBorder(BorderFactory.createEmptyBorder(0, 5, 10, 5));		
 	
-
+		pnlTipoCorso.add(lblTipoCorso);
+		
+		pnlRicerca.add(pnlTipoCorso, BorderLayout.NORTH);
 		pnlRicerca.add(txtBarraRicerca, BorderLayout.CENTER);
 		pnlRicerca.add(btnAggiungi, BorderLayout.EAST);
 		pnlRicerca.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
@@ -141,6 +164,7 @@ public class MenuInfoCorsiJPanel extends JPanel {
 
 		cambiaColore(temaBackground, temaFont);
 
+		pnlTipoCorso.setOpaque(false);
 		pnlIndietro.setOpaque(false);
 		pnlIndietro.add(btnIndietro);
 		pnlIndietro.add(Box.createGlue());

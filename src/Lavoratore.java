@@ -8,7 +8,7 @@ public class Lavoratore {
 	private String indirizzo;
 	private String qualifica;
 	private ArrayList<CorsoDiFormazione> corsiDiFormazione;
-	
+	private boolean daAggiornare;
 	
 	public Lavoratore() {
 		
@@ -18,7 +18,7 @@ public class Lavoratore {
 		indirizzo = null;
 		qualifica = null;
 		this.corsiDiFormazione = new ArrayList<CorsoDiFormazione>();
-		
+		daAggiornare = false;
 	}
 	
 	/**
@@ -35,6 +35,7 @@ public class Lavoratore {
 		this.indirizzo = indirizzo;
 		this.qualifica = qualifica;
 		this.corsiDiFormazione = new ArrayList<CorsoDiFormazione>();
+		this.daAggiornare=false;
 	}
 
 	/**
@@ -73,12 +74,28 @@ public class Lavoratore {
 	}
 
 	/**
+	 * 
+	 * @return daAggiornare
+	 */
+	public boolean getDaAggiornare() {
+		return daAggiornare;
+	}
+	
+	/**
 	 * @return the corsiDiFormazioni
 	 */
 	public ArrayList<CorsoDiFormazione> getCorsiDiFormazioni() {
 		return corsiDiFormazione;
 	}
 
+	/**
+	 * 
+	 * @param b
+	 */
+	public void setDaAggiornare(boolean b) {
+		daAggiornare = b;
+	}
+	 
 	/**
 	 * @param cognome the cognome to set
 	 */
@@ -130,6 +147,19 @@ public class Lavoratore {
 		corsiDiFormazione.remove(c);
 	}
 	
-	
+	/**
+	 * 
+	 * @return il numero di corsi scaduti
+	 */
+	public int getCorsiScaduti() {
+		
+		int n = 0;
+		for(int i=0;i<corsiDiFormazione.size();i++) {
+			if(corsiDiFormazione.get(i).getStato()==CorsoDiFormazione.SCADUTO)
+				n++;
+		}
+		
+		return n;
+	}
 	
 }

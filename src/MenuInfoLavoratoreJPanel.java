@@ -1,6 +1,7 @@
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
@@ -19,7 +20,6 @@ import javax.swing.JPanel;
  * Il menù che vien fuori quando premi un lavoratore dal menù principale
  * Qui ci sono tutte le info del lavoratore, la possibilità di aggiungere corsi ecc
  * 
- * --------------------------------------> DA FARE <-------------------------------------
  * 
  * 
  * @author Marco
@@ -55,36 +55,53 @@ public class MenuInfoLavoratoreJPanel extends JPanel{
 		JPanel pnlInfo = new JPanel(new GridLayout(3,2));
 		JPanel pnlCorsi = new JPanel(new GridLayout(4,1));
 		JPanel pnlIndietro = new JPanel(new GridLayout(1,2,10,10));
+		JPanel pnlOpzioni = new JPanel(new FlowLayout(FlowLayout.LEFT,10, 10));
 		
 		JLabel lblCognome = new JLabel("Cognome: "+lavoratore.getCognome());
 		JLabel lblNome = new JLabel("Nome: "+lavoratore.getNome());
 		JLabel lblCodiceFis = new JLabel("Codice fiscale: "+lavoratore.getCodiceFiscale());
 		JLabel lblIndirizzo = new JLabel("Indirizzo: "+lavoratore.getIndirizzo());
 		JLabel lblQualifica = new JLabel("Qualifica: "+lavoratore.getQualifica());
-		
+		JLabel lblDaAggiornare = new JLabel("<html><i>Da Aggiornare: </i></html>");
 		
 		CustomJButton btnIndietro = new CustomJButton("Indietro");
-		
+		CustomJButton btnAggiornamento = new CustomJButton("");
+
+		if(lavoratore.getDaAggiornare()==true) {
+			btnAggiornamento.setText("Sì");
+			btnAggiornamento.setName("1");
+		}
+		else {
+			btnAggiornamento.setText("No");
+			btnAggiornamento.setName("0");
+		}
+				
 		CorsiFormazionePnl pnlGenerale = new CorsiFormazionePnl(lavoratore,CorsiFormazionePnl.GENERALE);
 		CorsiFormazionePnl pnlSpecifica = new CorsiFormazionePnl(lavoratore, CorsiFormazionePnl.SPECIFICA);
 		CorsiFormazionePnl pnlPreposto = new CorsiFormazionePnl(lavoratore, CorsiFormazionePnl.PREPOSTO);
 		CorsiFormazionePnl pnlQuinquiennale = new CorsiFormazionePnl(lavoratore, CorsiFormazionePnl.QUINQUIENNALE);
 		
 		btnIndietro.addActionListener(new GestioneIndietro());
-
+		btnAggiornamento.addActionListener(new GestioneDaAggiornare());
+		
 		lblCodiceFis.addComponentListener(new FontAdj(fontDefault,2.5));
 		lblCognome.addComponentListener(new FontAdj(fontDefault,2.5));
 		lblIndirizzo.addComponentListener(new FontAdj(fontDefault,2.5));
 		lblNome.addComponentListener(new FontAdj(fontDefault,2.5));
 		lblQualifica.addComponentListener(new FontAdj(fontDefault,2.5));
 		
+		pnlOpzioni.setOpaque(false);
 		pnlIndietro.setOpaque(false);
+		
+		pnlOpzioni.add(lblDaAggiornare);
+		pnlOpzioni.add(btnAggiornamento);
 		
 		pnlInfo.add(lblCognome);
 		pnlInfo.add(lblNome);
 		pnlInfo.add(lblCodiceFis);
 		pnlInfo.add(lblIndirizzo);
 		pnlInfo.add(lblQualifica);
+		pnlInfo.add(pnlOpzioni);
 		
 		pnlCorsi.add(pnlGenerale);
 		pnlCorsi.add(pnlSpecifica);
@@ -99,6 +116,29 @@ public class MenuInfoLavoratoreJPanel extends JPanel{
 		
 		this.add(pnlMain, BorderLayout.CENTER);
 		this.add(pnlIndietro, BorderLayout.SOUTH);
+		
+	}
+	
+	public class GestioneDaAggiornare implements ActionListener {
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			// TODO Auto-generated method stub
+			
+			CustomJButton btn = (CustomJButton) e.getSource();
+			
+			if(btn.getName().equals("1")) {
+				btn.setName("0");
+				btn.setText("No");
+				lavoratore.setDaAggiornare(false);
+			}
+			else {
+				btn.setName("1");
+				btn.setText("Sì");
+				lavoratore.setDaAggiornare(true);
+			}
+			
+		}
 		
 	}
 	
