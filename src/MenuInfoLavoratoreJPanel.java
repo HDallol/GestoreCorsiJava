@@ -55,24 +55,25 @@ public class MenuInfoLavoratoreJPanel extends JPanel{
 		JPanel pnlInfo = new JPanel(new GridLayout(3,2));
 		JPanel pnlCorsi = new JPanel(new GridLayout(4,1));
 		JPanel pnlIndietro = new JPanel(new GridLayout(1,2,10,10));
-		JPanel pnlOpzioni = new JPanel(new FlowLayout(FlowLayout.LEFT,10, 10));
+		JPanel pnlOpzioni = new JPanel(new GridLayout(1,0,10,10));
 		
 		JLabel lblCognome = new JLabel("Cognome: "+lavoratore.getCognome());
 		JLabel lblNome = new JLabel("Nome: "+lavoratore.getNome());
 		JLabel lblCodiceFis = new JLabel("Codice fiscale: "+lavoratore.getCodiceFiscale());
 		JLabel lblIndirizzo = new JLabel("Indirizzo: "+lavoratore.getIndirizzo());
 		JLabel lblQualifica = new JLabel("Qualifica: "+lavoratore.getQualifica());
-		JLabel lblDaAggiornare = new JLabel("<html><i>Da Aggiornare: </i></html>");
+		//JLabel lblDaAggiornare = new JLabel("<html><i>Da Aggiornare: </i></html>");
 		
 		CustomJButton btnIndietro = new CustomJButton("Indietro");
-		CustomJButton btnAggiornamento = new CustomJButton("");
-
+		CustomJButton btnAggiornamento = new CustomJButton("",3);
+		CustomJButton btnModifica = new CustomJButton("Modifica",3);
+		
 		if(lavoratore.getDaAggiornare()==true) {
-			btnAggiornamento.setText("Sì");
+			btnAggiornamento.setText("Aggiornamento: Sì");
 			btnAggiornamento.setName("1");
 		}
 		else {
-			btnAggiornamento.setText("No");
+			btnAggiornamento.setText("Aggiornamento: No");
 			btnAggiornamento.setName("0");
 		}
 				
@@ -83,6 +84,7 @@ public class MenuInfoLavoratoreJPanel extends JPanel{
 		
 		btnIndietro.addActionListener(new GestioneIndietro());
 		btnAggiornamento.addActionListener(new GestioneDaAggiornare());
+		btnModifica.addActionListener(new GestioneModifica());
 		
 		lblCodiceFis.addComponentListener(new FontAdj(fontDefault,2.5));
 		lblCognome.addComponentListener(new FontAdj(fontDefault,2.5));
@@ -93,8 +95,9 @@ public class MenuInfoLavoratoreJPanel extends JPanel{
 		pnlOpzioni.setOpaque(false);
 		pnlIndietro.setOpaque(false);
 		
-		pnlOpzioni.add(lblDaAggiornare);
+		//pnlOpzioni.add(lblDaAggiornare);
 		pnlOpzioni.add(btnAggiornamento);
+		pnlOpzioni.add(btnModifica);
 		
 		pnlInfo.add(lblCognome);
 		pnlInfo.add(lblNome);
@@ -119,6 +122,19 @@ public class MenuInfoLavoratoreJPanel extends JPanel{
 		
 	}
 	
+	public class GestioneModifica implements ActionListener {
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			// TODO Auto-generated method stub
+			gestoreCorsi.getPnlDefault().removeAll();
+			gestoreCorsi.getPnlDefault().add(new MenuAggiungiLavoratoreJPanel(gestoreCorsi,lavoratore));
+			gestoreCorsi.getPnlDefault().revalidate();
+			gestoreCorsi.getPnlDefault().repaint();
+		}
+		
+	}
+	
 	public class GestioneDaAggiornare implements ActionListener {
 
 		@Override
@@ -129,12 +145,12 @@ public class MenuInfoLavoratoreJPanel extends JPanel{
 			
 			if(btn.getName().equals("1")) {
 				btn.setName("0");
-				btn.setText("No");
+				btn.setText("Aggiornamento: No");
 				lavoratore.setDaAggiornare(false);
 			}
 			else {
 				btn.setName("1");
-				btn.setText("Sì");
+				btn.setText("Aggiornamento: Sì");
 				lavoratore.setDaAggiornare(true);
 			}
 			
@@ -182,19 +198,19 @@ public class MenuInfoLavoratoreJPanel extends JPanel{
 			
 			switch(tipologia1) {
 			case GENERALE:
-				s="Formazione Generale";
+				s="<html>Formazione Generale - <i>"+lav.getNumeroCorsi(tipologia1)+" Corsi</html>";
 				break;
 			case SPECIFICA:
-				s="Formazione Specifica";
+				s="<html>Formazione Specifica - <i>"+lav.getNumeroCorsi(tipologia1)+" Corsi</html>";
 				break;
 			case PREPOSTO:
-				s="Formazione Preposto";
+				s="<html>Formazione Preposto - <i>"+lav.getNumeroCorsi(tipologia1)+" Corsi</html>";
 				break;
 			case QUINQUIENNALE:
-				s="Aggiornamenti Quinquiennale";
+				s="<html>Aggiornamenti Quinquiennale - <i>"+lav.getNumeroCorsi(tipologia1)+" Corsi</html>";
 				break;
 			default:
-				s="Formazione Generale";
+				s="<html>Formazione Generale - <i>"+lav.getNumeroCorsi(tipologia1)+" Corsi</html>";
 				tipologia1=0;
 				break;
 			}

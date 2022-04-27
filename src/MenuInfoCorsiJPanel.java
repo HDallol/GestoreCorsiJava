@@ -493,8 +493,10 @@ public class MenuInfoCorsiJPanel extends JPanel {
 			public void mousePressed(MouseEvent e) {
 				// TODO Auto-generated method stub
 
-			
-
+				gestoreCorsi.getPnlDefault().removeAll();
+				gestoreCorsi.getPnlDefault().add(new MenuInfoCorsoSpecificoJPanel(gestoreCorsi,arrCorsi.get(index),lavoratore));
+				gestoreCorsi.getPnlDefault().revalidate();
+				gestoreCorsi.getPnlDefault().repaint();
 			}
 
 			@Override

@@ -51,9 +51,9 @@ public class MenuInizialeJPanel extends JPanel {
 	private boolean filtriAttivi;
 	private ArrayList<Lavoratore> arrayLavoratoreConFiltri;
 	/**
-	 * Una raccolta dei filtri
+	 * Una raccolta dei filtri, e non so quali altri mettere
 	 */
-	private String[] arrayFiltri = {"Corsi scaduti", "Prova1" , "Banana", "!!!"};
+	private String[] arrayFiltri = {"Corsi scaduti","Corsi in scadenza" , "Da Aggiornare" };
 	private ArrayList<CustomJCheckBox> arrayListFiltri;
 
 	/**
@@ -203,7 +203,10 @@ public class MenuInizialeJPanel extends JPanel {
 	private void filtri() {
 
 		arrayListFiltri.add(aggiungiFiltro(arrayListFiltri.size(), new GestioneFiltroCorsiScaduti()));
+		arrayListFiltri.add(aggiungiFiltro(arrayListFiltri.size(), new GestioneFiltroCorsiInScadenza()));
+		arrayListFiltri.add(aggiungiFiltro(arrayListFiltri.size(), new GestioneFiltroDaAggiornare()));
 
+		
 		//		for(int i=0;i<arrayFiltri.length;i++) {
 		//			arrayListFiltri.add(aggiungiFiltro(i, new ActionListener() {
 		//
@@ -711,4 +714,116 @@ public class MenuInizialeJPanel extends JPanel {
 
 	}
 
+	public class GestioneFiltroCorsiInScadenza implements ActionListener{
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			// TODO Auto-generated method stub
+		
+			
+			CustomJCheckBox cb = (CustomJCheckBox) e.getSource();
+
+			ArrayList<Lavoratore> arr = gestoreCorsi.getArrayLavoratori();
+			ArrayList<Lavoratore> arrFiltro = new ArrayList<Lavoratore>();
+
+			arrayLavoratoreConFiltri.clear();
+
+			if(cb.isSelected()) {
+
+				for(int i=0;i<arrayListFiltri.size();i++) {
+					if(cb!=arrayListFiltri.get(i)) {
+						arrayListFiltri.get(i).setSelected(false);
+					}
+				}
+
+				filtriAttivi = true;
+
+				for(int i=0;i<arr.size();i++) {
+					if(arr.get(i).getCorsiInScadenza()>0) {
+						arrFiltro.add(arr.get(i));
+					}
+				}
+
+				for(int i=0;i<arrFiltro.size();i++) {
+					if( !(arrayLavoratoreConFiltri.contains(arrFiltro.get(i))) ) {
+						arrayLavoratoreConFiltri.add(arrFiltro.get(i));
+					}
+				}
+
+				System.out.println("Array Filtri: "+arrFiltro.size());
+				System.out.println("ArrayLavoratore con filtri: "+arrayLavoratoreConFiltri.size());
+
+
+				txtBarraRicerca.setText("");
+				pnlAggiungi.aggiornaPanel();
+			}
+			else {
+				arrayLavoratoreConFiltri.clear();
+				filtriAttivi = false;
+				pnlAggiungi.aggiornaPanel();
+			}
+			
+			
+		}
+		
+	}
+	
+	public class GestioneFiltroDaAggiornare implements ActionListener{
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			// TODO Auto-generated method stub
+		
+			
+			CustomJCheckBox cb = (CustomJCheckBox) e.getSource();
+
+			ArrayList<Lavoratore> arr = gestoreCorsi.getArrayLavoratori();
+			ArrayList<Lavoratore> arrFiltro = new ArrayList<Lavoratore>();
+
+			arrayLavoratoreConFiltri.clear();
+
+			if(cb.isSelected()) {
+
+				for(int i=0;i<arrayListFiltri.size();i++) {
+					if(cb!=arrayListFiltri.get(i)) {
+						arrayListFiltri.get(i).setSelected(false);
+					}
+				}
+
+				filtriAttivi = true;
+
+				for(int i=0;i<arr.size();i++) {
+					if(arr.get(i).getDaAggiornare()) {
+						arrFiltro.add(arr.get(i));
+						System.out.println("Aggiunto al filtro 1: "+i);
+					}
+				}
+
+				for(int i=0;i<arrFiltro.size();i++) {
+					if( !(arrayLavoratoreConFiltri.contains(arrFiltro.get(i))) ) {
+						arrayLavoratoreConFiltri.add(arrFiltro.get(i));
+					}
+				}
+
+				System.out.println("Array Filtri: "+arrFiltro.size());
+				System.out.println("ArrayLavoratore con filtri: "+arrayLavoratoreConFiltri.size());
+
+				for(int i=0;i<arrayLavoratoreConFiltri.size();i++) {
+					System.out.println("NOME DEL PLEBEO: "+arrayLavoratoreConFiltri.get(i).getNome());
+				}
+
+				txtBarraRicerca.setText("");
+				pnlAggiungi.aggiornaPanel();
+			}
+			else {
+				arrayLavoratoreConFiltri.clear();
+				filtriAttivi = false;
+				pnlAggiungi.aggiornaPanel();
+			}
+			
+			
+		}
+		
+	}
+	
 }

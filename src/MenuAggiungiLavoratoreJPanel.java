@@ -35,10 +35,19 @@ public class MenuAggiungiLavoratoreJPanel extends JPanel{
 	private String arrayQualifiche[] = {"Maggiordomo","Il ritardato","L'aiutante","Altro"};
 	private ArrayList<CorsoDiFormazione> corsiDiFormazione;
 
+	private Lavoratore lavoratore;
+	/**
+	 * Questo decide se il pannello è un pannello di modifica di un lavoratore
+	 * già esistente o se serve a creare un nuovo lavoratore
+	 */
+	private boolean pannelloModifica;	
+
 	public MenuAggiungiLavoratoreJPanel(GestoreCorsiJava1 gcj1) {
 
 		gestoreCorsi = gcj1;
 		this.setLayout(new GridLayout(6,2,10,10));
+		lavoratore = null;
+		pannelloModifica = false;
 
 		JLabel lblCognome = new JLabel("Cognome:");
 		JLabel lblNome = new JLabel("Nome:");
@@ -59,15 +68,77 @@ public class MenuAggiungiLavoratoreJPanel extends JPanel{
 		txtCognome.setBorder(BorderFactory.createLineBorder(Color.BLACK, 1));
 		txtIndirizzo.setBorder(BorderFactory.createLineBorder(Color.BLACK, 1));
 		txtNome.setBorder(BorderFactory.createLineBorder(Color.BLACK, 1));
-		
+
 		txtCodiceFiscale.addKeyListener(new GestioneTextField());
 		txtNome.addKeyListener(new GestioneTextField());
 		txtCognome.addKeyListener(new GestioneTextField());
 		txtIndirizzo.addKeyListener(new GestioneTextField());
-		
+
 		btnIndietro.addActionListener(new GestioneIndietro());
 		btnSalva.addActionListener(new GestioneSalva());
-		
+
+		this.add(lblCognome);
+		this.add(txtCognome);
+		this.add(lblNome);
+		this.add(txtNome);
+		this.add(lblCodiceFis);
+		this.add(txtCodiceFiscale);
+		this.add(lblIndirizzo);
+		this.add(txtIndirizzo);
+		this.add(lblQualifica);
+		this.add(cbQualifica);
+		this.add(btnIndietro);
+		this.add(btnSalva);
+
+	}
+
+
+	public MenuAggiungiLavoratoreJPanel(GestoreCorsiJava1 gcj1, Lavoratore lav) {
+
+		gestoreCorsi = gcj1;
+		this.lavoratore = lav;
+		pannelloModifica = true;
+		this.setLayout(new GridLayout(6,2,10,10));
+
+		JLabel lblCognome = new JLabel("Cognome:");
+		JLabel lblNome = new JLabel("Nome:");
+		JLabel lblCodiceFis = new JLabel("Codice Fiscale:");
+		JLabel lblIndirizzo = new JLabel("Indirizzo:");
+		JLabel lblQualifica = new JLabel("Qualifica:");
+
+		CustomJButton btnIndietro = new CustomJButton("Indietro",2);
+		CustomJButton btnSalva = new CustomJButton("Salva",2);
+
+		txtCognome = new JTextField(lav.getCognome());
+		txtNome = new JTextField(lav.getNome());
+		txtCodiceFiscale = new JTextField(lav.getCodiceFiscale());
+		txtIndirizzo = new JTextField(lav.getIndirizzo());
+		cbQualifica = new CustomJComboBox(arrayQualifiche);
+
+		int qualifica = 0;
+
+		for(int i=0;i<arrayQualifiche.length;i++) {
+			if(lav.getQualifica().equals(arrayQualifiche[i])) {
+				qualifica = i;
+				break;
+			}
+		}
+
+		cbQualifica.setSelectedIndex(qualifica);
+
+		txtCodiceFiscale.setBorder(BorderFactory.createLineBorder(Color.BLACK, 1));
+		txtCognome.setBorder(BorderFactory.createLineBorder(Color.BLACK, 1));
+		txtIndirizzo.setBorder(BorderFactory.createLineBorder(Color.BLACK, 1));
+		txtNome.setBorder(BorderFactory.createLineBorder(Color.BLACK, 1));
+
+		txtCodiceFiscale.addKeyListener(new GestioneTextField());
+		txtNome.addKeyListener(new GestioneTextField());
+		txtCognome.addKeyListener(new GestioneTextField());
+		txtIndirizzo.addKeyListener(new GestioneTextField());
+
+		btnIndietro.addActionListener(new GestioneIndietro());
+		btnSalva.addActionListener(new GestioneSalva());
+
 		this.add(lblCognome);
 		this.add(txtCognome);
 		this.add(lblNome);
@@ -115,36 +186,42 @@ public class MenuAggiungiLavoratoreJPanel extends JPanel{
 
 	private boolean controlloArrayLavoratori() {
 		boolean controllo=false;
-		
+
 		ArrayList<Lavoratore> arr = gestoreCorsi.getArrayLavoratori();
-		
+
 		//Se c'è un altro che ha lo stesso codice fiscale, allora blocco l'inserimento
 		// CODICE FISCALE = UNIVOCO
 		for(int i=0;i<arr.size();i++) {
-			if(arr.get(i).getCodiceFiscale().equalsIgnoreCase(txtCodiceFiscale.getText())) {	
-				controllo=true;
+			if(arr.get(i).getCodiceFiscale().equalsIgnoreCase(txtCodiceFiscale.getText())) {
+				if(pannelloModifica) {
+					if(!(arr.get(i)==lavoratore))
+						controllo=true;
+				}
+				else
+					controllo=true;
+
 				txtCodiceFiscale.setBorder(BorderFactory.createLineBorder(Color.RED, 1));
 				break;
 			}
 		}
-		 
+
 		return controllo;
 	}
-	
+
 
 	public void reset() {
 		txtCognome.setBorder(BorderFactory.createLineBorder(Color.BLACK, 1));
 		txtCodiceFiscale.setBorder(BorderFactory.createLineBorder(Color.BLACK, 1));
 		txtIndirizzo.setBorder(BorderFactory.createLineBorder(Color.BLACK, 1));
 		txtNome.setBorder(BorderFactory.createLineBorder(Color.BLACK, 1));
-		
+
 		txtCognome.setText("");
 		txtCodiceFiscale.setText("");
 		txtIndirizzo.setText("");
 		txtNome.setText("");
 		cbQualifica.setSelectedIndex(0);
 	}
-	
+
 	public class GestioneSalva implements ActionListener {
 
 		@Override
@@ -155,25 +232,49 @@ public class MenuAggiungiLavoratoreJPanel extends JPanel{
 
 			if(controllo==false) {
 				controllo = controlloArrayLavoratori();
-				
+
 				if(controllo==false) {
 					String nome = txtNome.getText();
 					String cognome = txtCognome.getText();
 					String codiceFiscale = txtCodiceFiscale.getText();
 					String indirizzo = txtIndirizzo.getText();
 					String qualifica = (String) cbQualifica.getSelectedItem();
-					System.out.println("Nel dubbio, la qualifica: "+qualifica);
-					
-					gestoreCorsi.getArrayLavoratori().add(new Lavoratore(cognome,nome,codiceFiscale,indirizzo,qualifica));
+
+					if(pannelloModifica) {
+						lavoratore.setCognome(cognome);
+						lavoratore.setCodiceFiscale(codiceFiscale);
+						lavoratore.setNome(nome);
+						lavoratore.setIndirizzo(indirizzo);
+						lavoratore.setQualifica(qualifica);
+					}
+					else
+						gestoreCorsi.getArrayLavoratori().add(new Lavoratore(cognome,nome,codiceFiscale,indirizzo,qualifica));
 					//gestoreCorsi.getPnlMenuIniziale().getScrollPanePnl().aggiornaPanel();
-					
+
 					txtNome.setText("");
 					txtCognome.setText("");
 					txtIndirizzo.setText("");
 					txtCodiceFiscale.setText("");
 					cbQualifica.setSelectedIndex(0);
+
+					if(pannelloModifica) {
+
+						int index=0;
+						for(int i=0;i<gestoreCorsi.getArrayLavoratori().size();i++) {
+							if(gestoreCorsi.getArrayLavoratori().get(i)==lavoratore) {
+								index = i;
+								break;
+							}
+						}
+
+						gestoreCorsi.getPnlDefault().removeAll();
+						gestoreCorsi.getPnlDefault().add(new MenuInfoLavoratoreJPanel(gestoreCorsi,index));
+						gestoreCorsi.getPnlDefault().revalidate();
+						gestoreCorsi.getPnlDefault().repaint();
+					}
+
 				}
-				
+
 			}
 
 		}
@@ -185,16 +286,36 @@ public class MenuAggiungiLavoratoreJPanel extends JPanel{
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			// TODO Auto-generated method stub
+			
 			gestoreCorsi.getPnlDefault().removeAll();
-			gestoreCorsi.getPnlMenuIniziale().reset();
-			gestoreCorsi.getPnlDefault().add(gestoreCorsi.getPnlMenuIniziale());
+			
+			if(pannelloModifica) {
+
+				int index=0;
+				for(int i=0;i<gestoreCorsi.getArrayLavoratori().size();i++) {
+					if(gestoreCorsi.getArrayLavoratori().get(i)==lavoratore) {
+						index = i;
+						break;
+					}
+				}
+
+				gestoreCorsi.getPnlDefault().add(new MenuInfoLavoratoreJPanel(gestoreCorsi,index));
+		
+			}
+			else {
+				gestoreCorsi.getPnlMenuIniziale().reset();
+				gestoreCorsi.getPnlDefault().add(gestoreCorsi.getPnlMenuIniziale());
+				
+			}
+			
 			gestoreCorsi.getPnlDefault().revalidate();
 			gestoreCorsi.getPnlDefault().repaint();
+			
 		}
 
 	}
 
-	
+
 	/**
 	 * Questo resetta il bordo quando scrivi qualcosa, per riportarlo a NERO 
 	 * @author Marco
@@ -213,15 +334,15 @@ public class MenuAggiungiLavoratoreJPanel extends JPanel{
 		@Override
 		public void keyPressed(KeyEvent e) {
 			// TODO Auto-generated method stub
-			
+
 		}
 
 		@Override
 		public void keyReleased(KeyEvent e) {
 			// TODO Auto-generated method stub
-			
+
 		}
-		
+
 	}
-	
+
 }

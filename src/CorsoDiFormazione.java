@@ -10,9 +10,9 @@ import java.util.GregorianCalendar;
  */
 public class CorsoDiFormazione {
 
-	public static int VALIDO = 0;
-	public static int IN_SCADENZA = 1;
-	public static int SCADUTO = 2;
+	public final static int VALIDO = 0;
+	public final static int IN_SCADENZA = 1;
+	public final static int SCADUTO = 2;
 	
 	public final static int GENERALE=0;
 	public final static int SPECIFICA=1;

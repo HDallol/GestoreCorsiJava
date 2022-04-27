@@ -162,4 +162,27 @@ public class Lavoratore {
 		return n;
 	}
 	
+	public int getCorsiInScadenza() {
+		int n=0;
+		
+		for(int i=0;i<corsiDiFormazione.size();i++) {
+			if(corsiDiFormazione.get(i).getStato()==CorsoDiFormazione.IN_SCADENZA) {
+				n++;
+			}
+		}
+		
+		return n;
+	}
+	
+	public int getNumeroCorsi(int tipologia) {
+		
+		int n=0;
+		
+		for(int i=0;i<corsiDiFormazione.size();i++) 
+			if(corsiDiFormazione.get(i).getTipologia()==tipologia)
+				n++;
+		
+		return n;
+	}
+	
 }
