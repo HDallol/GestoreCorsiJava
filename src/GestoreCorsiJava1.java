@@ -12,6 +12,13 @@
 import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.Toolkit;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 
 import javax.swing.JFrame;
@@ -22,6 +29,8 @@ public class GestoreCorsiJava1 extends JFrame {
 	private Dimension dimensioniSchermo = Toolkit.getDefaultToolkit().getScreenSize();
 	private Dimension dimensioniMinime = new Dimension(200,200);
 	private Dimension dimensioniFinestra = new Dimension(dimensioniSchermo.width/2, dimensioniSchermo.height/2);
+	
+	private File fileSalvataggio;
 	
 	/**
 	 * Panel di default su cui aggiungere tutti gli altri panel
@@ -39,7 +48,11 @@ public class GestoreCorsiJava1 extends JFrame {
 	public GestoreCorsiJava1() {
 		super("Gestore Corsi di Formazione - Alpha 0.2");
 		
+		fileSalvataggio = new File("gestoreCorsiJava.gcj");
+		
 		arrayLavoratori = new ArrayList<Lavoratore>();
+		
+		leggi();
 		
 		pnlDefault = new JPanel(new GridLayout(1,1));
 		pnlMenuIniziale = new MenuInizialeJPanel(this);
@@ -74,6 +87,55 @@ public class GestoreCorsiJava1 extends JFrame {
 	
 	public MenuAggiungiLavoratoreJPanel getMenuAggiungiLavoratore() {
 		return pnlMenuAggiungiLavoratore;
+	}
+	
+	/**
+	 * Salvataggio su file
+	 */
+	public void salva() {
+		
+		try {
+			FileOutputStream fos = new FileOutputStream(fileSalvataggio,false);
+			ObjectOutputStream oos = new ObjectOutputStream(fos);
+			
+			oos.writeObject(arrayLavoratori);
+			
+			oos.flush();
+			oos.close();
+			
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+		}
+		
+	}
+	
+	/**
+	 * Lettura da file
+	 */
+	public void leggi() {
+		
+		try {
+			FileInputStream fis = new FileInputStream(fileSalvataggio);
+			ObjectInputStream ois = new ObjectInputStream(fis);
+			
+			arrayLavoratori = (ArrayList<Lavoratore>) ois.readObject();
+			
+			ois.close();
+			
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+		} catch(ClassCastException e) {
+			
+		}
+		
+		System.out.println("Dimensione attuale array: "+arrayLavoratori.size());
+		
 	}
 	
 }

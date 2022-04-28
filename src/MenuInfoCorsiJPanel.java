@@ -14,12 +14,10 @@ import java.util.ArrayList;
 
 import javax.swing.BorderFactory;
 import javax.swing.Box;
-import javax.swing.BoxLayout;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
-import javax.swing.ScrollPaneConstants;
 import javax.swing.SwingConstants;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
@@ -328,7 +326,6 @@ public class MenuInfoCorsiJPanel extends JPanel {
 					String sCorsoSplit[] = nomeCorso.split(" ");
 					paroleUsate.clear();
 
-					boolean controllo=false;
 					int temp=0;
 
 					for(int j=0;j<sCorsoSplit.length;j++) {
@@ -381,7 +378,6 @@ public class MenuInfoCorsiJPanel extends JPanel {
 						String sCorsoSplit[] = nomeCorso.split(" ");
 						paroleUsate.clear();
 
-						boolean controllo=false;
 						int temp=0;
 
 						for(int j=0;j<sCorsoSplit.length;j++) {
@@ -558,6 +554,9 @@ public class MenuInfoCorsiJPanel extends JPanel {
 					pnlAggiungi.aggiornaPanel();
 					pnlAggiungi.revalidate();
 					pnlAggiungi.repaint();
+					
+					gestoreCorsi.salva();
+
 				}
 
 			}

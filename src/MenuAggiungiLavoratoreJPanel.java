@@ -7,7 +7,6 @@ import java.awt.event.KeyListener;
 import java.util.ArrayList;
 
 import javax.swing.BorderFactory;
-import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
@@ -33,7 +32,6 @@ public class MenuAggiungiLavoratoreJPanel extends JPanel{
 	private CustomJComboBox cbQualifica;
 
 	private String arrayQualifiche[] = {"Maggiordomo","Il ritardato","L'aiutante","Altro"};
-	private ArrayList<CorsoDiFormazione> corsiDiFormazione;
 
 	private Lavoratore lavoratore;
 	/**
@@ -271,6 +269,9 @@ public class MenuAggiungiLavoratoreJPanel extends JPanel{
 						gestoreCorsi.getPnlDefault().add(new MenuInfoLavoratoreJPanel(gestoreCorsi,index));
 						gestoreCorsi.getPnlDefault().revalidate();
 						gestoreCorsi.getPnlDefault().repaint();
+						
+						gestoreCorsi.salva();
+
 					}
 
 				}
@@ -310,7 +311,6 @@ public class MenuAggiungiLavoratoreJPanel extends JPanel{
 			
 			gestoreCorsi.getPnlDefault().revalidate();
 			gestoreCorsi.getPnlDefault().repaint();
-			
 		}
 
 	}

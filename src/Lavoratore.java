@@ -1,7 +1,13 @@
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Lavoratore {
+public class Lavoratore implements Serializable{
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 5472092391274441816L;
+	
 	private String cognome;
 	private String nome;
 	private String codiceFiscale;

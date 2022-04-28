@@ -19,6 +19,12 @@ public class MenuInfoCorsoSpecificoJPanel extends JPanel {
 	private CorsoDiFormazione corso;
 	private Lavoratore lavoratore;
 	
+	/**
+	 * 
+	 * @param gcj1 il gestoreCorsi
+	 * @param corso il corso specifico che vogliamo su schermo
+	 * @param lav il riferimento del lavoratore che ha il corso
+	 */
 	public MenuInfoCorsoSpecificoJPanel(GestoreCorsiJava1 gcj1, CorsoDiFormazione corso, Lavoratore lav) {
 		
 		gestoreCorsi = gcj1;
@@ -41,6 +47,7 @@ public class MenuInfoCorsoSpecificoJPanel extends JPanel {
 		CustomJButton btnModifica = new CustomJButton("Modifica");
 		
 		btnIndietro.addActionListener(new GestioneIndietro());
+		btnModifica.addActionListener(new GestioneModifica());
 		
 		switch(corso.getTipologia()) {
 		case CorsoDiFormazione.GENERALE:
@@ -84,6 +91,18 @@ public class MenuInfoCorsoSpecificoJPanel extends JPanel {
 		this.add(pnlPulsanti, BorderLayout.SOUTH);
 	}
 	
+	public class GestioneModifica implements ActionListener {
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			// TODO Auto-generated method stub
+			gestoreCorsi.getPnlDefault().removeAll();
+			gestoreCorsi.getPnlDefault().add(new MenuAggiungiCorsoJPanel(gestoreCorsi,corso.getTipologia(),lavoratore,corso));
+			gestoreCorsi.getPnlDefault().revalidate();
+			gestoreCorsi.getPnlDefault().repaint();
+		}
+		
+	}
 	
 	public class GestioneIndietro implements ActionListener {
 

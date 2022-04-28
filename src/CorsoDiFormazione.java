@@ -1,5 +1,5 @@
+import java.io.Serializable;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.GregorianCalendar;
 
 /**
@@ -8,8 +8,13 @@ import java.util.GregorianCalendar;
  * @author Marco
  *
  */
-public class CorsoDiFormazione {
+public class CorsoDiFormazione implements Serializable{
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 6647037689245289891L;
+	
 	public final static int VALIDO = 0;
 	public final static int IN_SCADENZA = 1;
 	public final static int SCADUTO = 2;
@@ -20,6 +25,9 @@ public class CorsoDiFormazione {
 	public final static int QUINQUIENNALE=3;
 
 	private String nomeCorso;
+	/**
+	 * Formattazione: GG/MM/AAAA
+	 */
 	private String data;
 	private int nOre;
 	private int scadenzaAnni;
@@ -64,6 +72,13 @@ public class CorsoDiFormazione {
 
 	}
 
+	public void setTipologia(int tipologia) {
+		if(tipologia>=0 && tipologia<=4) {
+			this.tipologia = tipologia;
+		}
+		else
+			this.tipologia = 0;
+	}
 	
 	public int getTipologia() {
 		return tipologia;
@@ -116,6 +131,8 @@ public class CorsoDiFormazione {
 	 */
 	public void setData(String data) {
 		this.data = data;
+		
+		aggiornaStato();
 	}
 
 	/**
@@ -130,6 +147,8 @@ public class CorsoDiFormazione {
 	 */
 	public void setScadenzaAnni(int scadenzaAnni) {
 		this.scadenzaAnni = scadenzaAnni;
+		
+		aggiornaStato();
 	}
 	
 

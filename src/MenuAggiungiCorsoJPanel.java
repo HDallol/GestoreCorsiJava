@@ -37,6 +37,12 @@ public class MenuAggiungiCorsoJPanel extends JPanel{
 	private CustomJComboBox cbAnno = new CustomJComboBox();
 	private JTextField txtNOre = new JTextField();
 	private JTextField txtScadenza = new JTextField();
+	/**
+	 * Questo decide se il pannello è un pannello di modifica di un corso
+	 * già esistente o se serve a creare un nuovo corso
+	 */
+	private boolean pannelloModifica;
+	private CorsoDiFormazione corso;
 
 	/**
 	 * @param gcj1 il gestore corsi
@@ -48,8 +54,8 @@ public class MenuAggiungiCorsoJPanel extends JPanel{
 		this.tipologia = tipologia;
 		gestoreCorsi = gcj1;
 		this.lavoratore = lavoratore;
-		
-		System.out.println("LA TIPOLOGIA: "+tipologia);
+		pannelloModifica = false;
+		corso = null;
 
 		this.setLayout(new GridLayout(5,2));
 		JPanel pnlData = new JPanel(new GridLayout(1,3));
@@ -97,7 +103,7 @@ public class MenuAggiungiCorsoJPanel extends JPanel{
 		cbGiorno.setSelectedIndex(c.get(Calendar.DAY_OF_MONTH)-1);
 		cbMese.setSelectedIndex(c.get(Calendar.MONTH));
 		cbAnno.setSelectedIndex(cbAnno.getItemCount()-1);
-		
+
 		pnlData.add(cbGiorno);
 		pnlData.add(cbMese);
 		pnlData.add(cbAnno);
@@ -115,7 +121,82 @@ public class MenuAggiungiCorsoJPanel extends JPanel{
 
 	}
 
-	
+
+	public MenuAggiungiCorsoJPanel(GestoreCorsiJava1 gcj1, int tipologia, Lavoratore lavoratore, CorsoDiFormazione corso) {
+
+		this.tipologia = tipologia;
+		gestoreCorsi = gcj1;
+		this.lavoratore = lavoratore;
+		pannelloModifica = true;
+		this.corso = corso;
+
+		this.setLayout(new GridLayout(5,2));
+		JPanel pnlData = new JPanel(new GridLayout(1,3));
+
+		JLabel lblNomeCorso = new JLabel("Nome corso: ");
+		JLabel lblData = new JLabel("Data: ");
+		JLabel lblNOre = new JLabel("Numero di ore: ");
+		JLabel lblScadenza = new JLabel("Durata (in anni): ");
+
+		CustomJButton btnIndietro = new CustomJButton("Indietro");
+		CustomJButton btnSalva = new CustomJButton("Salva");
+
+		btnIndietro.addActionListener(new GestioneIndietro());
+		btnSalva.addActionListener(new GestioneSalva());
+		cbGiorno.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				cbGiorno.setBorder(BorderFactory.createLineBorder(Color.black, 1));
+			}
+
+		});
+
+		txtNomeCorso.addKeyListener(new GestioneTesto());
+		txtNOre.addKeyListener(new GestioneTesto());
+		txtScadenza.addKeyListener(new GestioneTesto());
+
+		for(int i=1;i<=31;i++) {
+			cbGiorno.addItem(""+i);
+		}
+
+		for(int i=0;i<MESI.length;i++) {
+			cbMese.addItem(MESI[i]);
+		}
+
+		int annoAttuale = Calendar.getInstance().get(Calendar.YEAR);
+
+		for(int i=annoAttuale-60;i<=annoAttuale;i++) {
+			cbAnno.addItem(""+i);
+			if(i==Integer.parseInt(corso.getData().split("/")[2]))
+				cbAnno.setSelectedIndex(cbAnno.getItemCount()-1);
+		}
+
+		txtNomeCorso.setText(corso.getNomeCorso());
+		txtNOre.setText(""+corso.getnOre());
+		txtScadenza.setText(""+corso.getScadenzaAnni());
+
+		cbGiorno.setSelectedIndex(Integer.parseInt(corso.getData().split("/")[0])-1);
+		cbMese.setSelectedIndex(Integer.parseInt(corso.getData().split("/")[1])-1);
+
+		pnlData.add(cbGiorno);
+		pnlData.add(cbMese);
+		pnlData.add(cbAnno);
+
+		this.add(lblNomeCorso);
+		this.add(txtNomeCorso);
+		this.add(lblData);
+		this.add(pnlData);
+		this.add(lblNOre);
+		this.add(txtNOre);
+		this.add(lblScadenza);
+		this.add(txtScadenza);
+		this.add(btnIndietro);
+		this.add(btnSalva);
+
+	}
+
 	/**
 	 * Allora, qui controlla tipo tutto per vedere se è apposto. E poi mette dentro l'array di corsi di lavoratore
 	 * 
@@ -162,23 +243,23 @@ public class MenuAggiungiCorsoJPanel extends JPanel{
 			int numeroOre = 0;
 			try {
 				numeroOre = Integer.parseInt(nOre);
-				
+
 				if(numeroOre<1) {
 					controllo=true;
 					txtNOre.setBorder(BorderFactory.createLineBorder(Color.red, 1));
 				}
-					
+
 			}
 			catch(NumberFormatException e1) {
 				controllo=true;
 				txtNOre.setBorder(BorderFactory.createLineBorder(Color.red, 1));
 			}
-			
+
 			int scadenzaInt=0;
-			
+
 			try {
 				scadenzaInt = Integer.parseInt(scadenza);
-				
+
 				if(scadenzaInt<1) {
 					controllo=true;
 					txtScadenza.setBorder(BorderFactory.createLineBorder(Color.RED, 1));
@@ -188,25 +269,44 @@ public class MenuAggiungiCorsoJPanel extends JPanel{
 				controllo=true;
 				txtScadenza.setBorder(BorderFactory.createLineBorder(Color.red, 1));
 			}
-			
+
 
 			if(controllo==false) {
 				String data = ""+giorno+"/"+mese+"/"+anno;
-				lavoratore.aggiungiCorso(new CorsoDiFormazione(nomeCorso, data, numeroOre, scadenzaInt, tipologia));
-				System.out.println("TIPOLOGIA QUANDO SALVO: "+tipologia);
+
+				if(pannelloModifica) {
+					corso.setNomeCorso(nomeCorso);
+					corso.setData(data);
+					corso.setnOre(numeroOre);
+					corso.setScadenzaAnni(scadenzaInt);
+					corso.setTipologia(tipologia);
+
+					gestoreCorsi.getPnlDefault().removeAll();
+					gestoreCorsi.getPnlDefault().add(new MenuInfoCorsoSpecificoJPanel(gestoreCorsi,corso,lavoratore));
+					gestoreCorsi.getPnlDefault().revalidate();
+					gestoreCorsi.getPnlDefault().repaint();
+					
+
+				}
+				else {
+					lavoratore.aggiungiCorso(new CorsoDiFormazione(nomeCorso, data, numeroOre, scadenzaInt, tipologia));
+				}
+				
+				gestoreCorsi.salva();
+
 				reset();
 			}
-			
-			
+
+
 		}
 
 	}
-	
+
 	public void reset() {
 		txtNomeCorso.setText("");
 		txtNOre.setText("");
 		txtScadenza.setText("");
-		
+
 		Calendar c = Calendar.getInstance();
 
 		cbGiorno.setSelectedIndex(c.get(Calendar.DAY_OF_MONTH)-1);
@@ -244,7 +344,11 @@ public class MenuAggiungiCorsoJPanel extends JPanel{
 
 
 			gestoreCorsi.getPnlDefault().removeAll();
-			gestoreCorsi.getPnlDefault().add(new MenuInfoCorsiJPanel(gestoreCorsi,lavoratore,tipologia));
+
+			if(pannelloModifica)
+				gestoreCorsi.getPnlDefault().add(new MenuInfoCorsoSpecificoJPanel(gestoreCorsi,corso,lavoratore));
+			else
+				gestoreCorsi.getPnlDefault().add(new MenuInfoCorsiJPanel(gestoreCorsi,lavoratore,tipologia));
 			gestoreCorsi.getPnlDefault().revalidate();
 			gestoreCorsi.getPnlDefault().repaint();
 
