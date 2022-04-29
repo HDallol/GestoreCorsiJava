@@ -31,8 +31,9 @@ public class MenuInfoLavoratoreJPanel extends JPanel{
 	GestoreCorsiJava1 gestoreCorsi;
 	
 	Lavoratore lavoratore;
-	
-	private Font fontDefault = new Font("Calibri", Font.PLAIN, 15);
+	private Color temaBackground = new Color(210,210,210);
+	private Color temaFont = Color.BLACK;
+	private Font fontDefault = new Font("Calibri", Font.BOLD, 15);
 
 	/**
 	 * 
@@ -51,7 +52,7 @@ public class MenuInfoLavoratoreJPanel extends JPanel{
 		JPanel pnlMain = new JPanel(new GridLayout(2,1));
 		JPanel pnlInfo = new JPanel(new GridLayout(3,2));
 		JPanel pnlCorsi = new JPanel(new GridLayout(4,1));
-		JPanel pnlIndietro = new JPanel(new GridLayout(1,2,10,10));
+		JPanel pnlIndietro = new JPanel(new GridLayout(1,3,10,10));
 		JPanel pnlOpzioni = new JPanel(new GridLayout(1,0,10,10));
 		
 		JLabel lblCognome = new JLabel("Cognome: "+lavoratore.getCognome());
@@ -61,9 +62,9 @@ public class MenuInfoLavoratoreJPanel extends JPanel{
 		JLabel lblQualifica = new JLabel("Qualifica: "+lavoratore.getQualifica());
 		//JLabel lblDaAggiornare = new JLabel("<html><i>Da Aggiornare: </i></html>");
 		
-		CustomJButton btnIndietro = new CustomJButton("Indietro");
-		CustomJButton btnAggiornamento = new CustomJButton("",3);
-		CustomJButton btnModifica = new CustomJButton("Modifica",3);
+		CustomJButton btnIndietro = new CustomJButton("Indietro",2);
+		CustomJButton btnAggiornamento = new CustomJButton("",2.5);
+		CustomJButton btnModifica = new CustomJButton("Modifica",2.5);
 		
 		if(lavoratore.getDaAggiornare()==true) {
 			btnAggiornamento.setText("Aggiornamento: Sì");
@@ -89,8 +90,18 @@ public class MenuInfoLavoratoreJPanel extends JPanel{
 		lblNome.addComponentListener(new FontAdj(fontDefault,2.5));
 		lblQualifica.addComponentListener(new FontAdj(fontDefault,2.5));
 		
+		pnlInfo.setBorder(BorderFactory.createEmptyBorder(0, 15, 0, 15));
+		pnlIndietro.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+		pnlOpzioni.setBorder(BorderFactory.createEmptyBorder(5, 0, 10, 0));
+		
+		pnlCorsi.setOpaque(false);
+		pnlInfo.setOpaque(false);
 		pnlOpzioni.setOpaque(false);
 		pnlIndietro.setOpaque(false);
+		pnlMain.setOpaque(false);
+		
+		this.setBackground(temaBackground);
+		//pnlMain.setBackground(temaBackground);
 		
 		//pnlOpzioni.add(lblDaAggiornare);
 		pnlOpzioni.add(btnAggiornamento);
@@ -109,6 +120,7 @@ public class MenuInfoLavoratoreJPanel extends JPanel{
 		pnlCorsi.add(pnlQuinquiennale);
 		
 		pnlIndietro.add(btnIndietro);
+		pnlIndietro.add(Box.createGlue());
 		pnlIndietro.add(Box.createGlue());
 		
 		pnlMain.add(pnlInfo);

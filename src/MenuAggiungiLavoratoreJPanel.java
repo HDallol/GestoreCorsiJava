@@ -31,7 +31,7 @@ public class MenuAggiungiLavoratoreJPanel extends JPanel{
 	private JTextField txtIndirizzo;
 	private CustomJComboBox cbQualifica;
 
-	private String arrayQualifiche[] = {"Maggiordomo","Il ritardato","L'aiutante","Altro"};
+	private String arrayQualifiche[] = {"Dirigente","DSGA","Docente","Assistente tecnico","Assistente amministrativo","Collaboratore scolastico","Altro"};
 
 	private Lavoratore lavoratore;
 	/**

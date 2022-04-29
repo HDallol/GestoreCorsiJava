@@ -571,17 +571,21 @@ public class MenuInfoCorsiJPanel extends JPanel {
 				public AvvisoScadenzaJPanel(int stato) {
 					this.setOpaque(false);
 					grandezzaCerchio = 0.6;			//LA GRANDEZZA DEL CERCHIO COLORATO: Da 0 a 1
-
+					
+					
 					this.stato = stato;
 					
 					if(stato==CorsoDiFormazione.VALIDO) {
 						colore = Color.GREEN;
+						this.setToolTipText("Valido");
 					}
 					else if(stato==CorsoDiFormazione.IN_SCADENZA) {
 						colore = Color.ORANGE;
+						this.setToolTipText("In Scadenza");
 					}
 					else {
 						colore = Color.RED;
+						this.setToolTipText("Scaduto");
 					}
 					
 				}
