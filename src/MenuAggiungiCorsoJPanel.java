@@ -7,8 +7,10 @@ import java.awt.event.KeyListener;
 import java.util.Calendar;
 
 import javax.swing.BorderFactory;
+import javax.swing.ButtonGroup;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JRadioButton;
 import javax.swing.JTextField;
 
 /**
@@ -37,6 +39,10 @@ public class MenuAggiungiCorsoJPanel extends JPanel{
 	private CustomJComboBox cbAnno = new CustomJComboBox();
 	private JTextField txtNOre = new JTextField();
 	private JTextField txtScadenza = new JTextField();
+	private JRadioButton rbtnAffermativo = new JRadioButton("Sì");
+	private JRadioButton rbtnNegativo = new JRadioButton("No");
+	private JPanel pnlCompletato = new JPanel(new GridLayout(1,2,10,10));
+
 	/**
 	 * Questo decide se il pannello è un pannello di modifica di un corso
 	 * già esistente o se serve a creare un nuovo corso
@@ -57,13 +63,16 @@ public class MenuAggiungiCorsoJPanel extends JPanel{
 		pannelloModifica = false;
 		corso = null;
 
-		this.setLayout(new GridLayout(5,2));
+
+
+		this.setLayout(new GridLayout(6,2));
 		JPanel pnlData = new JPanel(new GridLayout(1,3));
 
 		JLabel lblNomeCorso = new JLabel("Nome corso: ");
 		JLabel lblData = new JLabel("Data: ");
 		JLabel lblNOre = new JLabel("Numero di ore: ");
 		JLabel lblScadenza = new JLabel("Durata (in anni): ");
+		JLabel lblCompletato = new JLabel("Completato: ");
 
 		CustomJButton btnIndietro = new CustomJButton("Indietro");
 		CustomJButton btnSalva = new CustomJButton("Salva");
@@ -83,6 +92,8 @@ public class MenuAggiungiCorsoJPanel extends JPanel{
 		txtNomeCorso.addKeyListener(new GestioneTesto());
 		txtNOre.addKeyListener(new GestioneTesto());
 		txtScadenza.addKeyListener(new GestioneTesto());
+		rbtnAffermativo.addActionListener(new GestioneRadioButton());
+		rbtnNegativo.addActionListener(new GestioneRadioButton());
 
 		for(int i=1;i<=31;i++) {
 			cbGiorno.addItem(""+i);
@@ -104,9 +115,20 @@ public class MenuAggiungiCorsoJPanel extends JPanel{
 		cbMese.setSelectedIndex(c.get(Calendar.MONTH));
 		cbAnno.setSelectedIndex(cbAnno.getItemCount()-1);
 
+		ButtonGroup rbtnGroup = new ButtonGroup();
+
+		rbtnAffermativo.setFocusable(false);
+		rbtnNegativo.setFocusable(false);
+
+		rbtnGroup.add(rbtnAffermativo);
+		rbtnGroup.add(rbtnNegativo);
+
 		pnlData.add(cbGiorno);
 		pnlData.add(cbMese);
 		pnlData.add(cbAnno);
+
+		pnlCompletato.add(rbtnAffermativo);
+		pnlCompletato.add(rbtnNegativo);
 
 		this.add(lblNomeCorso);
 		this.add(txtNomeCorso);
@@ -116,6 +138,8 @@ public class MenuAggiungiCorsoJPanel extends JPanel{
 		this.add(txtNOre);
 		this.add(lblScadenza);
 		this.add(txtScadenza);
+		this.add(lblCompletato);
+		this.add(pnlCompletato);
 		this.add(btnIndietro);
 		this.add(btnSalva);
 
@@ -130,12 +154,12 @@ public class MenuAggiungiCorsoJPanel extends JPanel{
 		pannelloModifica = true;
 		this.corso = corso;
 
-		this.setLayout(new GridLayout(5,2));
+		this.setLayout(new GridLayout(4,2));
 		JPanel pnlData = new JPanel(new GridLayout(1,3));
+		JPanel pnlCompletato = new JPanel(new GridLayout(1,2,10,10));
 
 		JLabel lblNomeCorso = new JLabel("Nome corso: ");
-		JLabel lblData = new JLabel("Data: ");
-		JLabel lblNOre = new JLabel("Numero di ore: ");
+		JLabel lblCompletato = new JLabel("Completato: ");
 		JLabel lblScadenza = new JLabel("Durata (in anni): ");
 
 		CustomJButton btnIndietro = new CustomJButton("Indietro");
@@ -143,55 +167,41 @@ public class MenuAggiungiCorsoJPanel extends JPanel{
 
 		btnIndietro.addActionListener(new GestioneIndietro());
 		btnSalva.addActionListener(new GestioneSalva());
-		cbGiorno.addActionListener(new ActionListener() {
+		
+		ButtonGroup rbtnGroup = new ButtonGroup();
 
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
-				cbGiorno.setBorder(BorderFactory.createLineBorder(Color.black, 1));
-			}
+		rbtnAffermativo.setFocusable(false);
+		rbtnNegativo.setFocusable(false);
 
-		});
+		rbtnGroup.add(rbtnAffermativo);
+		rbtnGroup.add(rbtnNegativo);
 
+		if(corso.getCompletato())
+			rbtnAffermativo.setSelected(true);
+		else
+			rbtnNegativo.setSelected(true);
+		
 		txtNomeCorso.addKeyListener(new GestioneTesto());
 		txtNOre.addKeyListener(new GestioneTesto());
 		txtScadenza.addKeyListener(new GestioneTesto());
-
-		for(int i=1;i<=31;i++) {
-			cbGiorno.addItem(""+i);
-		}
-
-		for(int i=0;i<MESI.length;i++) {
-			cbMese.addItem(MESI[i]);
-		}
-
-		int annoAttuale = Calendar.getInstance().get(Calendar.YEAR);
-
-		for(int i=annoAttuale-60;i<=annoAttuale;i++) {
-			cbAnno.addItem(""+i);
-			if(i==Integer.parseInt(corso.getData().split("/")[2]))
-				cbAnno.setSelectedIndex(cbAnno.getItemCount()-1);
-		}
 
 		txtNomeCorso.setText(corso.getNomeCorso());
 		txtNOre.setText(""+corso.getnOre());
 		txtScadenza.setText(""+corso.getScadenzaAnni());
 
-		cbGiorno.setSelectedIndex(Integer.parseInt(corso.getData().split("/")[0])-1);
-		cbMese.setSelectedIndex(Integer.parseInt(corso.getData().split("/")[1])-1);
-
 		pnlData.add(cbGiorno);
 		pnlData.add(cbMese);
 		pnlData.add(cbAnno);
+		
+		pnlCompletato.add(rbtnAffermativo);
+		pnlCompletato.add(rbtnNegativo);
 
 		this.add(lblNomeCorso);
 		this.add(txtNomeCorso);
-		this.add(lblData);
-		this.add(pnlData);
-		this.add(lblNOre);
-		this.add(txtNOre);
 		this.add(lblScadenza);
 		this.add(txtScadenza);
+		this.add(lblCompletato);
+		this.add(pnlCompletato);
 		this.add(btnIndietro);
 		this.add(btnSalva);
 
@@ -208,95 +218,142 @@ public class MenuAggiungiCorsoJPanel extends JPanel{
 		@Override
 		public void actionPerformed(ActionEvent e) {
 
-			boolean controllo=false;
+			if(!pannelloModifica) {
+				boolean controllo=false;
 
-			String nomeCorso = txtNomeCorso.getText().trim();
-			int giorno = cbGiorno.getSelectedIndex()+1;
-			int mese = cbMese.getSelectedIndex()+1;
-			int anno = Integer.parseInt( (String) cbAnno.getSelectedItem() );
-			String nOre = txtNOre.getText().trim();
-			String scadenza = txtScadenza.getText().trim();
+				String nomeCorso = txtNomeCorso.getText().trim();
+				int giorno = cbGiorno.getSelectedIndex()+1;
+				int mese = cbMese.getSelectedIndex()+1;
+				int anno = Integer.parseInt( (String) cbAnno.getSelectedItem() );
+				String nOre = txtNOre.getText().trim();
+				String scadenza = txtScadenza.getText().trim();
 
-			if(nomeCorso.length()==0) {
-				controllo=true;
-				txtNomeCorso.setBorder(BorderFactory.createLineBorder(Color.red, 1));
-			}
+				if(nomeCorso.length()==0) {
+					controllo=true;
+					txtNomeCorso.setBorder(BorderFactory.createLineBorder(Color.red, 1));
+				}
 
-			if(mese==2) {
-				if(anno%400==0 || (anno%4==0 && anno%100!=0)) {
-					if(!(giorno<=29)) {
+				if(mese==2) {
+					if(anno%400==0 || (anno%4==0 && anno%100!=0)) {
+						if(!(giorno<=29)) {
+							controllo=true;
+							cbGiorno.setBorder(BorderFactory.createLineBorder(Color.RED, 2));
+						}
+					}
+					else if(!(giorno<=28)) {
 						controllo=true;
 						cbGiorno.setBorder(BorderFactory.createLineBorder(Color.RED, 2));
 					}
 				}
-				else if(!(giorno<=28)) {
-					controllo=true;
-					cbGiorno.setBorder(BorderFactory.createLineBorder(Color.RED, 2));
+				else if(mese==4 || mese==6 || mese==9 || mese==11) {
+					if(!(giorno<=30)) {
+						controllo=true;
+						cbGiorno.setBorder(BorderFactory.createLineBorder(Color.RED, 2));
+					}
 				}
-			}
-			else if(mese==4 || mese==6 || mese==9 || mese==11) {
-				if(!(giorno<=30)) {
-					controllo=true;
-					cbGiorno.setBorder(BorderFactory.createLineBorder(Color.RED, 2));
-				}
-			}
-			int numeroOre = 0;
-			try {
-				numeroOre = Integer.parseInt(nOre);
+				int numeroOre = 0;
+				try {
+					numeroOre = Integer.parseInt(nOre);
 
-				if(numeroOre<1) {
+					if(numeroOre<1) {
+						controllo=true;
+						txtNOre.setBorder(BorderFactory.createLineBorder(Color.red, 1));
+					}
+
+				}
+				catch(NumberFormatException e1) {
 					controllo=true;
 					txtNOre.setBorder(BorderFactory.createLineBorder(Color.red, 1));
 				}
 
-			}
-			catch(NumberFormatException e1) {
-				controllo=true;
-				txtNOre.setBorder(BorderFactory.createLineBorder(Color.red, 1));
-			}
+				int scadenzaInt=0;
 
-			int scadenzaInt=0;
+				try {
+					scadenzaInt = Integer.parseInt(scadenza);
 
-			try {
-				scadenzaInt = Integer.parseInt(scadenza);
-
-				if(scadenzaInt<1) {
+					if(scadenzaInt<1) {
+						controllo=true;
+						txtScadenza.setBorder(BorderFactory.createLineBorder(Color.RED, 1));
+					}
+				}
+				catch(NumberFormatException e1) {
 					controllo=true;
-					txtScadenza.setBorder(BorderFactory.createLineBorder(Color.RED, 1));
+					txtScadenza.setBorder(BorderFactory.createLineBorder(Color.red, 1));
+				}
+
+
+				boolean completato=false;
+				if(rbtnAffermativo.isSelected()==false && rbtnNegativo.isSelected()==false) {
+					controllo=true;
+					pnlCompletato.setBorder(BorderFactory.createLineBorder(Color.RED, 1));
+				}
+				else {
+					if(rbtnAffermativo.isSelected()==true) 
+						completato = true;
+					else 
+						completato = false;
+				}
+
+				if(controllo==false) {
+					String data = ""+giorno+"/"+mese+"/"+anno;
+
+					lavoratore.aggiungiCorso(new CorsoDiFormazione(nomeCorso, scadenzaInt, tipologia, completato));
+					lavoratore.getCorsiDiFormazioni().get(lavoratore.getCorsiDiFormazioni().size()-1).aggiungiData(data, numeroOre);
+
 				}
 			}
-			catch(NumberFormatException e1) {
-				controllo=true;
-				txtScadenza.setBorder(BorderFactory.createLineBorder(Color.red, 1));
-			}
 
+			else {
+				boolean controllo = false;
 
-			if(controllo==false) {
-				String data = ""+giorno+"/"+mese+"/"+anno;
+				String nomeCorso = txtNomeCorso.getText().trim();
+				if(nomeCorso.length()==0) {
+					controllo=true;
+					txtNomeCorso.setBorder(BorderFactory.createLineBorder(Color.red, 1));
+				}
+				String scadenza = txtScadenza.getText().trim();
+				int scadenzaInt=0;
 
-				if(pannelloModifica) {
+				try {
+					scadenzaInt = Integer.parseInt(scadenza);
+
+					if(scadenzaInt<1) {
+						controllo=true;
+						txtScadenza.setBorder(BorderFactory.createLineBorder(Color.RED, 1));
+					}
+				}
+				catch(NumberFormatException e1) {
+					controllo=true;
+					txtScadenza.setBorder(BorderFactory.createLineBorder(Color.red, 1));
+				}
+
+				boolean completato=false;
+				if(rbtnAffermativo.isSelected()==false && rbtnNegativo.isSelected()==false) {
+					controllo=true;
+					pnlCompletato.setBorder(BorderFactory.createLineBorder(Color.RED, 1));
+				}
+				else {
+					if(rbtnAffermativo.isSelected()==true) 
+						completato = true;
+					else 
+						completato = false;
+				}
+				
+				if(controllo==false) {
 					corso.setNomeCorso(nomeCorso);
-					corso.setData(data);
-					corso.setnOre(numeroOre);
 					corso.setScadenzaAnni(scadenzaInt);
-					corso.setTipologia(tipologia);
-
+					corso.setCompletato(completato);
 					gestoreCorsi.getPnlDefault().removeAll();
 					gestoreCorsi.getPnlDefault().add(new MenuInfoCorsoSpecificoJPanel(gestoreCorsi,corso,lavoratore));
 					gestoreCorsi.getPnlDefault().revalidate();
 					gestoreCorsi.getPnlDefault().repaint();
-					
-
 				}
-				else {
-					lavoratore.aggiungiCorso(new CorsoDiFormazione(nomeCorso, data, numeroOre, scadenzaInt, tipologia));
-				}
-				
-				gestoreCorsi.salva();
 
-				reset();
 			}
 
+
+			gestoreCorsi.salva();
+			reset();
 
 		}
 
@@ -309,9 +366,21 @@ public class MenuAggiungiCorsoJPanel extends JPanel{
 
 		Calendar c = Calendar.getInstance();
 
-		cbGiorno.setSelectedIndex(c.get(Calendar.DAY_OF_MONTH)-1);
-		cbMese.setSelectedIndex(c.get(Calendar.MONTH));
-		cbAnno.setSelectedIndex(cbAnno.getItemCount()-1);
+		if(!pannelloModifica) {
+			cbGiorno.setSelectedIndex(c.get(Calendar.DAY_OF_MONTH)-1);
+			cbMese.setSelectedIndex(c.get(Calendar.MONTH));
+			cbAnno.setSelectedIndex(cbAnno.getItemCount()-1);
+		}
+	}
+
+	public class GestioneRadioButton implements ActionListener {
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			// TODO Auto-generated method stub
+			pnlCompletato.setBorder(null);
+		}
+
 	}
 
 	public class GestioneTesto implements KeyListener {

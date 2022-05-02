@@ -583,9 +583,13 @@ public class MenuInfoCorsiJPanel extends JPanel {
 						colore = Color.ORANGE;
 						this.setToolTipText("In Scadenza");
 					}
-					else {
+					else if(stato==CorsoDiFormazione.SCADUTO){
 						colore = Color.RED;
 						this.setToolTipText("Scaduto");
+					}
+					else {
+						colore = Color.BLUE;
+						this.setToolTipText("Da completare");
 					}
 					
 				}

@@ -191,4 +191,5 @@ public class Lavoratore implements Serializable{
 		return n;
 	}
 	
+	
 }
