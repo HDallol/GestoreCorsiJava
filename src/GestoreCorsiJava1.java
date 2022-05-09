@@ -21,6 +21,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 
+import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
@@ -47,6 +48,8 @@ public class GestoreCorsiJava1 extends JFrame {
 	
 	public GestoreCorsiJava1() {
 		super("Gestore Corsi di Formazione - Alpha 0.2");
+		
+		this.setIconImage(new ImageIcon("logo.png").getImage());
 		
 		fileSalvataggio = new File("gestoreCorsiJava.gcj");
 		

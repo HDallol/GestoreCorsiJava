@@ -42,7 +42,7 @@ public class MenuAggiungiCorsoJPanel extends JPanel{
 	private JRadioButton rbtnAffermativo = new JRadioButton("Sì");
 	private JRadioButton rbtnNegativo = new JRadioButton("No");
 	private JPanel pnlCompletato = new JPanel(new GridLayout(1,2,10,10));
-
+	private ButtonGroup rbtnGroup;
 	/**
 	 * Questo decide se il pannello è un pannello di modifica di un corso
 	 * già esistente o se serve a creare un nuovo corso
@@ -115,11 +115,11 @@ public class MenuAggiungiCorsoJPanel extends JPanel{
 		cbMese.setSelectedIndex(c.get(Calendar.MONTH));
 		cbAnno.setSelectedIndex(cbAnno.getItemCount()-1);
 
-		ButtonGroup rbtnGroup = new ButtonGroup();
+		rbtnGroup = new ButtonGroup();
 
 		rbtnAffermativo.setFocusable(false);
 		rbtnNegativo.setFocusable(false);
-
+		
 		rbtnGroup.add(rbtnAffermativo);
 		rbtnGroup.add(rbtnNegativo);
 
@@ -343,6 +343,7 @@ public class MenuAggiungiCorsoJPanel extends JPanel{
 					corso.setNomeCorso(nomeCorso);
 					corso.setScadenzaAnni(scadenzaInt);
 					corso.setCompletato(completato);
+					
 					gestoreCorsi.getPnlDefault().removeAll();
 					gestoreCorsi.getPnlDefault().add(new MenuInfoCorsoSpecificoJPanel(gestoreCorsi,corso,lavoratore));
 					gestoreCorsi.getPnlDefault().revalidate();
@@ -363,7 +364,7 @@ public class MenuAggiungiCorsoJPanel extends JPanel{
 		txtNomeCorso.setText("");
 		txtNOre.setText("");
 		txtScadenza.setText("");
-
+		rbtnGroup.clearSelection();
 		Calendar c = Calendar.getInstance();
 
 		if(!pannelloModifica) {

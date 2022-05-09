@@ -33,7 +33,14 @@ public class MenuInfoCorsoSpecificoJPanel extends JPanel {
 	private GestoreCorsiJava1 gestoreCorsi;
 	private CorsoDiFormazione corso;
 	private Lavoratore lavoratore;
-	
+
+	JLabel lblNomeCorso;
+	JLabel lblTipologia;
+	JLabel lblData;
+	JLabel lblNOre;
+	JLabel lblDurata;
+	JLabel lblStato;
+
 	/**
 	 * 
 	 * @param gcj1 il gestoreCorsi
@@ -41,34 +48,68 @@ public class MenuInfoCorsoSpecificoJPanel extends JPanel {
 	 * @param lav il riferimento del lavoratore che ha il corso
 	 */
 	public MenuInfoCorsoSpecificoJPanel(GestoreCorsiJava1 gcj1, CorsoDiFormazione corso, Lavoratore lav) {
-		
+
 		gestoreCorsi = gcj1;
 		this.corso = corso;
 		this.lavoratore = lav;
-		
+
 		this.setLayout(new BorderLayout());
-		
+
 		JPanel pnlMain = new JPanel(new GridLayout(1,2));
 		JPanel pnlInfo = new JPanel(new GridLayout(6,1));
 		JPanel pnlPulsanti = new JPanel(new GridLayout(1,2,10,10));
 		JPanel pnlDate = new JPanel(new BorderLayout());
 		ScrollPaneJPanel spPanel = new ScrollPaneJPanel();
-		
-		JLabel lblNomeCorso = new JLabel("Corso: "+corso.getNomeCorso());
-		JLabel lblTipologia = new JLabel("");
-		JLabel lblData = new JLabel("Data di riferimento: "+corso.getData().get(corso.getData().size()-1));
-		JLabel lblNOre = new JLabel("Numero di ore complessivo: "+corso.getNOreComplessive());
-		JLabel lblDurata = new JLabel("Durata (in anni): "+corso.getScadenzaAnni());
-		JLabel lblStato = new JLabel("");
-		
+
+		lblNomeCorso = new JLabel();
+		lblTipologia = new JLabel();
+		lblData = new JLabel();
+		lblNOre = new JLabel();
+		lblDurata = new JLabel();
+		lblStato = new JLabel();
+
 		CustomJButton btnIndietro = new CustomJButton("Indietro");
 		CustomJButton btnModifica = new CustomJButton("Modifica");
 		CustomJButton btnAggiungiData = new CustomJButton("Aggiungi data");
-		
+
 		btnIndietro.addActionListener(new GestioneIndietro());
 		btnModifica.addActionListener(new GestioneModifica());
 		btnAggiungiData.addActionListener(new GestioneAggiungiData());
-		
+
+		reset();
+
+
+		pnlInfo.add(lblNomeCorso);
+		pnlInfo.add(lblTipologia);
+		pnlInfo.add(lblData);
+		pnlInfo.add(lblNOre);
+		pnlInfo.add(lblDurata);
+		pnlInfo.add(lblStato);
+
+		pnlPulsanti.add(btnIndietro);
+		pnlPulsanti.add(btnModifica);
+
+		spPanel.aggiornaPanel();
+
+		pnlDate.add(spPanel, BorderLayout.CENTER);
+		pnlDate.add(btnAggiungiData, BorderLayout.SOUTH);
+
+		pnlMain.add(pnlInfo);
+		pnlMain.add(pnlDate);
+
+		this.add(pnlMain, BorderLayout.CENTER);
+		this.add(pnlPulsanti, BorderLayout.SOUTH);
+	}
+
+	public void reset() {
+
+		lblDurata.setText("Durata (in anni): "+corso.getScadenzaAnni());
+		lblNomeCorso.setText("Corso: "+corso.getNomeCorso());
+		lblNOre.setText("Numero di ore complessivo: "+corso.getNOreComplessive());
+		lblStato.setText("");
+		lblTipologia.setText("");
+		lblData.setText("Data di riferimento: "+corso.getData().get(corso.getData().size()-1));
+
 		switch(corso.getTipologia()) {
 		case CorsoDiFormazione.GENERALE:
 			lblTipologia.setText("Tipologia: Generale");
@@ -83,7 +124,7 @@ public class MenuInfoCorsoSpecificoJPanel extends JPanel {
 			lblTipologia.setText("Tipologia: Specifica");
 			break;
 		}
-	
+
 		switch(corso.getStato()) {
 		case CorsoDiFormazione.VALIDO:
 			lblStato.setText("Stato: VALIDO");
@@ -97,30 +138,12 @@ public class MenuInfoCorsoSpecificoJPanel extends JPanel {
 		case CorsoDiFormazione.DA_COMPLETARE:
 			lblStato.setText("Stato: DA COMPLETARE");
 		}
-		
-		
-		pnlInfo.add(lblNomeCorso);
-		pnlInfo.add(lblTipologia);
-		pnlInfo.add(lblData);
-		pnlInfo.add(lblNOre);
-		pnlInfo.add(lblDurata);
-		pnlInfo.add(lblStato);
-		
-		pnlPulsanti.add(btnIndietro);
-		pnlPulsanti.add(btnModifica);
-		
-		spPanel.aggiornaPanel();
-		
-		pnlDate.add(spPanel, BorderLayout.CENTER);
-		pnlDate.add(btnAggiungiData, BorderLayout.SOUTH);
-		
-		pnlMain.add(pnlInfo);
-		pnlMain.add(pnlDate);
-		
-		this.add(pnlMain, BorderLayout.CENTER);
-		this.add(pnlPulsanti, BorderLayout.SOUTH);
+
+		this.revalidate();
+		this.repaint();
+
 	}
-	
+
 	public class GestioneAggiungiData implements ActionListener {
 
 		@Override
@@ -131,9 +154,9 @@ public class MenuInfoCorsoSpecificoJPanel extends JPanel {
 			gestoreCorsi.getPnlDefault().revalidate();
 			gestoreCorsi.getPnlDefault().repaint();
 		}
-		
+
 	}
-	
+
 	public class GestioneModifica implements ActionListener {
 
 		@Override
@@ -144,29 +167,29 @@ public class MenuInfoCorsoSpecificoJPanel extends JPanel {
 			gestoreCorsi.getPnlDefault().revalidate();
 			gestoreCorsi.getPnlDefault().repaint();
 		}
-		
+
 	}
-	
+
 	public class GestioneIndietro implements ActionListener {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			// TODO Auto-generated method stub
-			
+
 			gestoreCorsi.getPnlDefault().removeAll();
 			gestoreCorsi.getPnlDefault().add(new MenuInfoCorsiJPanel(gestoreCorsi,lavoratore, corso.getTipologia()));
 			gestoreCorsi.getPnlDefault().revalidate();
 			gestoreCorsi.getPnlDefault().repaint();
 		}
-		
+
 	}
-	
-	
-	
+
+
+
 	public class ScrollPaneJPanel extends JPanel {
 
 		JScrollPane spListaDate;
-		
+
 		public ScrollPaneJPanel() {
 			super();
 			spListaDate = new JScrollPane();
@@ -177,9 +200,9 @@ public class MenuInfoCorsoSpecificoJPanel extends JPanel {
 		public void aggiornaPanel() {
 
 			ArrayList<String> arr = corso.getData();
-			
+
 			JLabel lblTextoIniziale = new JLabel("Nessuna data disponibile");
-			
+
 			this.removeAll();
 
 			if(arr.size()==0) {
@@ -202,6 +225,8 @@ public class MenuInfoCorsoSpecificoJPanel extends JPanel {
 				for(int i=0;i<arr.size();i++) {
 
 					DataPnl pnl = new DataPnl(i);
+					if(arr.size()==1)
+						pnl.cancellaAttivato(false);
 					//DA MODIFICARE NEL CASO
 					pnlLavoratore.add(pnl);
 
@@ -220,7 +245,7 @@ public class MenuInfoCorsoSpecificoJPanel extends JPanel {
 			this.repaint();
 		}
 
-		
+
 
 		/**
 		 * Panel per ogni lavoratore nel JScrollPane
@@ -233,6 +258,7 @@ public class MenuInfoCorsoSpecificoJPanel extends JPanel {
 			Color temaMouseEntered;
 			CustomJButton btnCancella;
 			JLabel lbl;
+			String data;
 
 			public DataPnl(int index) {
 
@@ -241,10 +267,10 @@ public class MenuInfoCorsoSpecificoJPanel extends JPanel {
 
 				this.setLayout(new BorderLayout());
 				this.index = index;
-				
-				String data = arr.get(index);
+
+				data = arr.get(index);
 				int nOre = corso.getnOre().get(index);
-						
+
 				lbl = new JLabel((index+1)+"- Data: "+data+"     Ore: "+nOre);
 				btnCancella = new CustomJButton("X",2);
 				lbl.setBorder(BorderFactory.createEmptyBorder(0, 10, 0, 10));
@@ -256,8 +282,8 @@ public class MenuInfoCorsoSpecificoJPanel extends JPanel {
 				btnCancella.setPreferredSize(new Dimension((int) (this.getWidth()*0.1), this.getHeight()));
 				btnCancella.addActionListener(new GestioneCancella());
 				cambiaColore(temaSfondo, temaMouseEntered);
-				
-				
+
+
 				this.setBorder(BorderFactory.createLineBorder(Color.BLACK, 1));
 				this.setPreferredSize(new Dimension(100,80));
 				this.addMouseListener(this);
@@ -265,7 +291,11 @@ public class MenuInfoCorsoSpecificoJPanel extends JPanel {
 				this.add(lbl, BorderLayout.CENTER);
 				this.add(btnCancella, BorderLayout.EAST);
 			}
-
+			
+			public void cancellaAttivato(boolean attivato) {
+				btnCancella.setEnabled(attivato);
+			}
+			
 			public void cambiaColore(Color temaSfondo, Color temaMouseEntered) {
 				this.temaSfondo = temaSfondo;
 				this.temaMouseEntered = temaMouseEntered;
@@ -339,8 +369,15 @@ public class MenuInfoCorsoSpecificoJPanel extends JPanel {
 				@Override
 				public void actionPerformed(ActionEvent e) {
 					// TODO Auto-generated method stub
-				
 
+					if(corso.getData().size()>1) {
+
+						corso.rimuoviData(data);
+						aggiornaPanel();
+						reset();
+						
+						gestoreCorsi.salva();
+					}
 				}
 
 			}
@@ -348,7 +385,7 @@ public class MenuInfoCorsoSpecificoJPanel extends JPanel {
 		}
 
 	}
-	
-	
-	
+
+
+
 }
