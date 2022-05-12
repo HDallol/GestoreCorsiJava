@@ -10,6 +10,7 @@
  */
 
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.Toolkit;
 import java.io.File;
@@ -30,6 +31,8 @@ public class GestoreCorsiJava1 extends JFrame {
 	private Dimension dimensioniSchermo = Toolkit.getDefaultToolkit().getScreenSize();
 	private Dimension dimensioniMinime = new Dimension(200,200);
 	private Dimension dimensioniFinestra = new Dimension(dimensioniSchermo.width/2, dimensioniSchermo.height/2);
+	
+	public static final Font fontDefault = new Font("Calibri", Font.PLAIN, 15);
 	
 	private File fileSalvataggio;
 	

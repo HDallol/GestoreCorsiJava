@@ -1,4 +1,6 @@
+import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -7,6 +9,7 @@ import java.awt.event.KeyListener;
 import java.util.Calendar;
 
 import javax.swing.BorderFactory;
+import javax.swing.Box;
 import javax.swing.ButtonGroup;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -31,6 +34,8 @@ public class MenuAggiungiDataJPanel extends JPanel {
 	private CustomJComboBox cbMese = new CustomJComboBox();
 	private CustomJComboBox cbAnno = new CustomJComboBox();
 	private JTextField txtNOre = new JTextField();
+	private Color temaBackground = new Color(210,210,210);
+
 
 
 
@@ -41,9 +46,11 @@ public class MenuAggiungiDataJPanel extends JPanel {
 
 
 
-		this.setLayout(new GridLayout(3,2));
+		this.setLayout(new BorderLayout());
+		JPanel pnlMain = new JPanel(new GridLayout(2,2,30,30));
 		JPanel pnlData = new JPanel(new GridLayout(1,3));
-
+		JPanel pnlPulsanti = new JPanel(new GridLayout(1,3,10,10));
+		
 		JLabel lblData = new JLabel("Data: ");
 		JLabel lblNOre = new JLabel("Numero di ore: ");
 
@@ -85,21 +92,41 @@ public class MenuAggiungiDataJPanel extends JPanel {
 		cbGiorno.setSelectedIndex(c.get(Calendar.DAY_OF_MONTH)-1);
 		cbMese.setSelectedIndex(c.get(Calendar.MONTH));
 		cbAnno.setSelectedIndex(cbAnno.getItemCount()-1);
-	
+		
+		btnIndietro.addComponentListener(new FontAdj(gestoreCorsi.fontDefault.deriveFont(Font.BOLD),2));
+		btnSalva.addComponentListener(new FontAdj(gestoreCorsi.fontDefault.deriveFont(Font.BOLD),2));
+		lblData.addComponentListener(new FontAdj(gestoreCorsi.fontDefault,4));
+		lblNOre.addComponentListener(new FontAdj(gestoreCorsi.fontDefault,4));
+		txtNOre.addComponentListener(new FontAdj(gestoreCorsi.fontDefault,4));
+		cbAnno.addComponentListener(new FontAdj(gestoreCorsi.fontDefault,5));
+		cbGiorno.addComponentListener(new FontAdj(gestoreCorsi.fontDefault,5));
+		cbMese.addComponentListener(new FontAdj(gestoreCorsi.fontDefault,5));
+		
+		pnlData.setBorder(BorderFactory.createEmptyBorder(30, 0, 30, 0));
+		pnlPulsanti.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+		pnlMain.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+		
+		pnlData.setOpaque(false);
+		pnlMain.setOpaque(false);
+		pnlPulsanti.setOpaque(false);
+		
+		this.setBackground(temaBackground);
+		
 		pnlData.add(cbGiorno);
 		pnlData.add(cbMese);
 		pnlData.add(cbAnno);
-
 		
-
-		
-		this.add(lblData);
-		this.add(pnlData);
-		this.add(lblNOre);
-		this.add(txtNOre);
+		pnlPulsanti.add(btnIndietro);
+		pnlPulsanti.add(Box.createGlue());
+		pnlPulsanti.add(btnSalva);
 	
-		this.add(btnIndietro);
-		this.add(btnSalva);
+		pnlMain.add(lblData);
+		pnlMain.add(pnlData);
+		pnlMain.add(lblNOre);
+		pnlMain.add(txtNOre);
+	
+		this.add(pnlMain, BorderLayout.CENTER);
+		this.add(pnlPulsanti, BorderLayout.SOUTH);
 	}
 
 	public void reset() {

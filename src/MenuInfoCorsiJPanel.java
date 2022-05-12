@@ -121,7 +121,7 @@ public class MenuInfoCorsiJPanel extends JPanel {
 		
 		pnlRicerca = new JPanel(new BorderLayout());
 		JPanel pnlTipoCorso = new JPanel(new GridLayout(1,1));
-		JPanel pnlIndietro = new JPanel(new GridLayout(1,2,10,10));
+		JPanel pnlIndietro = new JPanel(new GridLayout(1,3,10,10));
 		pnlAggiungi = new ScrollPaneJPanel();
 
 		txtBarraRicerca = new JTextField();
@@ -131,6 +131,7 @@ public class MenuInfoCorsiJPanel extends JPanel {
 		
 		CustomJButton btnIndietro = new CustomJButton("Indietro");
 		btnIndietro.addActionListener(new GestioneIndietro());
+		btnIndietro.addComponentListener(new FontAdj(fontDefault.deriveFont(Font.BOLD), 2));
 		
 		arrayJLabel = new ArrayList<JLabel>();
 
@@ -162,12 +163,14 @@ public class MenuInfoCorsiJPanel extends JPanel {
 
 		cambiaColore(temaBackground, temaFont);
 
+		pnlIndietro.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+		
 		pnlTipoCorso.setOpaque(false);
 		pnlIndietro.setOpaque(false);
 		pnlIndietro.add(btnIndietro);
 		pnlIndietro.add(Box.createGlue());
+		pnlIndietro.add(Box.createGlue());
 	
-		
 		this.add(pnlRicerca, BorderLayout.NORTH);
 		this.add(pnlAggiungi, BorderLayout.CENTER);
 		this.add(pnlIndietro, BorderLayout.SOUTH);

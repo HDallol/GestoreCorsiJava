@@ -32,6 +32,8 @@ public class MenuAggiungiLavoratoreJPanel extends JPanel{
 	private CustomJComboBox cbQualifica;
 
 	private String arrayQualifiche[] = {"Dirigente","DSGA","Docente","Assistente tecnico","Assistente amministrativo","Collaboratore scolastico","Altro"};
+	
+	private Color temaBackground = new Color(210,210,210);
 
 	private Lavoratore lavoratore;
 	/**
@@ -71,10 +73,26 @@ public class MenuAggiungiLavoratoreJPanel extends JPanel{
 		txtNome.addKeyListener(new GestioneTextField());
 		txtCognome.addKeyListener(new GestioneTextField());
 		txtIndirizzo.addKeyListener(new GestioneTextField());
+		
+		txtCodiceFiscale.addComponentListener(new FontAdj(GestoreCorsiJava1.fontDefault, 2));
+		txtCognome.addComponentListener(new FontAdj(GestoreCorsiJava1.fontDefault, 2));
+		txtIndirizzo.addComponentListener(new FontAdj(GestoreCorsiJava1.fontDefault, 2));
+		txtNome.addComponentListener(new FontAdj(GestoreCorsiJava1.fontDefault, 2));
+		
+		cbQualifica.addComponentListener(new FontAdj(GestoreCorsiJava1.fontDefault, 3));
 
+		lblCodiceFis.addComponentListener(new FontAdj(GestoreCorsiJava1.fontDefault, 2));
+		lblCognome.addComponentListener(new FontAdj(GestoreCorsiJava1.fontDefault, 2));
+		lblIndirizzo.addComponentListener(new FontAdj(GestoreCorsiJava1.fontDefault, 2));
+		lblNome.addComponentListener(new FontAdj(GestoreCorsiJava1.fontDefault, 2));
+		lblQualifica.addComponentListener(new FontAdj(GestoreCorsiJava1.fontDefault, 2));
+		
 		btnIndietro.addActionListener(new GestioneIndietro());
 		btnSalva.addActionListener(new GestioneSalva());
 
+		this.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+		this.setBackground(temaBackground);
+		
 		this.add(lblCognome);
 		this.add(txtCognome);
 		this.add(lblNome);
@@ -134,9 +152,25 @@ public class MenuAggiungiLavoratoreJPanel extends JPanel{
 		txtCognome.addKeyListener(new GestioneTextField());
 		txtIndirizzo.addKeyListener(new GestioneTextField());
 
+		txtCodiceFiscale.addComponentListener(new FontAdj(GestoreCorsiJava1.fontDefault, 2));
+		txtCognome.addComponentListener(new FontAdj(GestoreCorsiJava1.fontDefault, 2));
+		txtIndirizzo.addComponentListener(new FontAdj(GestoreCorsiJava1.fontDefault, 2));
+		txtNome.addComponentListener(new FontAdj(GestoreCorsiJava1.fontDefault, 2));
+		
+		lblCodiceFis.addComponentListener(new FontAdj(GestoreCorsiJava1.fontDefault, 2));
+		lblCognome.addComponentListener(new FontAdj(GestoreCorsiJava1.fontDefault, 2));
+		lblIndirizzo.addComponentListener(new FontAdj(GestoreCorsiJava1.fontDefault, 2));
+		lblNome.addComponentListener(new FontAdj(GestoreCorsiJava1.fontDefault, 2));
+		lblQualifica.addComponentListener(new FontAdj(GestoreCorsiJava1.fontDefault, 2));
+		
+		cbQualifica.addComponentListener(new FontAdj(GestoreCorsiJava1.fontDefault, 3));
+		
 		btnIndietro.addActionListener(new GestioneIndietro());
 		btnSalva.addActionListener(new GestioneSalva());
 
+		this.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+		this.setBackground(temaBackground);
+		
 		this.add(lblCognome);
 		this.add(txtCognome);
 		this.add(lblNome);

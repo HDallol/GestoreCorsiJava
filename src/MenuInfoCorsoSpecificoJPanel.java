@@ -12,6 +12,7 @@ import java.awt.event.MouseListener;
 import java.util.ArrayList;
 
 import javax.swing.BorderFactory;
+import javax.swing.Box;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -27,7 +28,7 @@ import javax.swing.SwingConstants;
  */
 public class MenuInfoCorsoSpecificoJPanel extends JPanel {
 
-	private Font fontDefault = new Font("Calibri", Font.PLAIN, 15);
+	private Font fontDefault = new Font("Calibri", Font.BOLD, 15);
 	private Color temaBackground = new Color(210,210,210);
 
 	private GestoreCorsiJava1 gestoreCorsi;
@@ -41,6 +42,7 @@ public class MenuInfoCorsoSpecificoJPanel extends JPanel {
 	JLabel lblDurata;
 	JLabel lblStato;
 
+	
 	/**
 	 * 
 	 * @param gcj1 il gestoreCorsi
@@ -57,7 +59,7 @@ public class MenuInfoCorsoSpecificoJPanel extends JPanel {
 
 		JPanel pnlMain = new JPanel(new GridLayout(1,2));
 		JPanel pnlInfo = new JPanel(new GridLayout(6,1));
-		JPanel pnlPulsanti = new JPanel(new GridLayout(1,2,10,10));
+		JPanel pnlPulsanti = new JPanel(new GridLayout(1,3,10,10));
 		JPanel pnlDate = new JPanel(new BorderLayout());
 		ScrollPaneJPanel spPanel = new ScrollPaneJPanel();
 
@@ -76,9 +78,22 @@ public class MenuInfoCorsoSpecificoJPanel extends JPanel {
 		btnModifica.addActionListener(new GestioneModifica());
 		btnAggiungiData.addActionListener(new GestioneAggiungiData());
 
+		btnIndietro.addComponentListener(new FontAdj(fontDefault.deriveFont(Font.BOLD), 2));
+		btnIndietro.addComponentListener(new FontAdj(fontDefault.deriveFont(Font.BOLD), 2));
+		btnModifica.addComponentListener(new FontAdj(fontDefault.deriveFont(Font.BOLD), 2));
+		
+		lblData.addComponentListener(new FontAdj(fontDefault, 3));
+		lblDurata.addComponentListener(new FontAdj(fontDefault, 3));
+		lblNomeCorso.addComponentListener(new FontAdj(fontDefault, 3));
+		lblNOre.addComponentListener(new FontAdj(fontDefault, 3));
+		lblStato.addComponentListener(new FontAdj(fontDefault, 3));
+		lblTipologia.addComponentListener(new FontAdj(fontDefault, 3));
+		
 		reset();
 
-
+		pnlPulsanti.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+		pnlInfo.setBorder(BorderFactory.createEmptyBorder(5, 10, 10, 10));
+		
 		pnlInfo.add(lblNomeCorso);
 		pnlInfo.add(lblTipologia);
 		pnlInfo.add(lblData);
@@ -87,6 +102,7 @@ public class MenuInfoCorsoSpecificoJPanel extends JPanel {
 		pnlInfo.add(lblStato);
 
 		pnlPulsanti.add(btnIndietro);
+		pnlPulsanti.add(Box.createGlue());
 		pnlPulsanti.add(btnModifica);
 
 		spPanel.aggiornaPanel();
@@ -96,7 +112,14 @@ public class MenuInfoCorsoSpecificoJPanel extends JPanel {
 
 		pnlMain.add(pnlInfo);
 		pnlMain.add(pnlDate);
-
+		
+		pnlDate.setOpaque(false);
+		pnlInfo.setOpaque(false);
+		pnlMain.setOpaque(false);
+		pnlPulsanti.setOpaque(false);
+		
+		this.setBackground(temaBackground);
+		
 		this.add(pnlMain, BorderLayout.CENTER);
 		this.add(pnlPulsanti, BorderLayout.SOUTH);
 	}
@@ -194,7 +217,9 @@ public class MenuInfoCorsoSpecificoJPanel extends JPanel {
 			super();
 			spListaDate = new JScrollPane();
 			this.setLayout(new GridLayout(1,1));
-			this.setOpaque(false);
+			
+			
+		
 		}
 
 		public void aggiornaPanel() {
@@ -220,7 +245,11 @@ public class MenuInfoCorsoSpecificoJPanel extends JPanel {
 				}
 
 				JPanel pnlLavoratore = new JPanel(new GridLayout(righe,1,3,3));
-				pnlLavoratore.setBackground(temaBackground);
+				
+				Color colore = new Color(temaBackground.getRed()-10,  temaBackground.getGreen()-10,temaBackground.getBlue()-10);
+
+				pnlLavoratore.setBackground(colore);
+				
 
 				for(int i=0;i<arr.size();i++) {
 
