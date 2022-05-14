@@ -194,6 +194,7 @@ public class MenuAggiungiDataJPanel extends JPanel {
 
 				corso.aggiungiData(data, numeroOre);
 				corso.ordinaArrayDateEOre();
+				gestoreCorsi.salva();
 				reset();
 
 			}
