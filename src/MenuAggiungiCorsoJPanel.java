@@ -129,6 +129,18 @@ public class MenuAggiungiCorsoJPanel extends JPanel{
 		rbtnGroup.add(rbtnAffermativo);
 		rbtnGroup.add(rbtnNegativo);
 
+		cbAnno.addComponentListener(new FontAdj(GestoreCorsiJava1.fontDefault,3));
+		cbGiorno.addComponentListener(new FontAdj(GestoreCorsiJava1.fontDefault,3));
+		cbMese.addComponentListener(new FontAdj(GestoreCorsiJava1.fontDefault,3));
+		
+		cbAnno.setBackground(Color.WHITE);
+		cbMese.setBackground(Color.WHITE);
+		cbGiorno.setBackground(Color.WHITE);
+		
+		txtNomeCorso.addComponentListener(new FontAdj(GestoreCorsiJava1.fontDefault,2.5));
+		txtNOre.addComponentListener(new FontAdj(GestoreCorsiJava1.fontDefault,2.5));
+		txtScadenza.addComponentListener(new FontAdj(GestoreCorsiJava1.fontDefault,2.5));
+		
 		lblCompletato.addComponentListener(new FontAdj(GestoreCorsiJava1.fontDefault,3));
 		lblData.addComponentListener(new FontAdj(GestoreCorsiJava1.fontDefault,3));
 		lblNomeCorso.addComponentListener(new FontAdj(GestoreCorsiJava1.fontDefault,3));
@@ -137,10 +149,6 @@ public class MenuAggiungiCorsoJPanel extends JPanel{
 		
 		rbtnAffermativo.addComponentListener(new FontAdj(GestoreCorsiJava1.fontDefault,3));
 		rbtnNegativo.addComponentListener(new FontAdj(GestoreCorsiJava1.fontDefault,3));
-		
-		cbAnno.addComponentListener(new FontAdj(GestoreCorsiJava1.fontDefault,4));
-		cbGiorno.addComponentListener(new FontAdj(GestoreCorsiJava1.fontDefault,4));
-		cbMese.addComponentListener(new FontAdj(GestoreCorsiJava1.fontDefault,4));
 		
 		btnSalva.addComponentListener(new FontAdj(GestoreCorsiJava1.fontDefault.deriveFont(Font.BOLD),2));
 		btnIndietro.addComponentListener(new FontAdj(GestoreCorsiJava1.fontDefault.deriveFont(Font.BOLD),2));
@@ -382,7 +390,11 @@ public class MenuAggiungiCorsoJPanel extends JPanel{
 
 					lavoratore.aggiungiCorso(new CorsoDiFormazione(nomeCorso, scadenzaInt, tipologia, completato));
 					lavoratore.getCorsiDiFormazioni().get(lavoratore.getCorsiDiFormazioni().size()-1).aggiungiData(data, numeroOre);
-
+					
+					
+					gestoreCorsi.salva();
+					reset();
+					
 				}
 			}
 
@@ -426,18 +438,23 @@ public class MenuAggiungiCorsoJPanel extends JPanel{
 					corso.setNomeCorso(nomeCorso);
 					corso.setScadenzaAnni(scadenzaInt);
 					corso.setCompletato(completato);
+			
+					
+					gestoreCorsi.salva();
+					reset();
 					
 					gestoreCorsi.getPnlDefault().removeAll();
 					gestoreCorsi.getPnlDefault().add(new MenuInfoCorsoSpecificoJPanel(gestoreCorsi,corso,lavoratore));
 					gestoreCorsi.getPnlDefault().revalidate();
 					gestoreCorsi.getPnlDefault().repaint();
+					
+					
 				}
 
 			}
 
 
-			gestoreCorsi.salva();
-			reset();
+			
 
 		}
 

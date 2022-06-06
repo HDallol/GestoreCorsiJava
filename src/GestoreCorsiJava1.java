@@ -13,6 +13,8 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.Toolkit;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -24,9 +26,11 @@ import java.util.ArrayList;
 
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JWindow;
 
-public class GestoreCorsiJava1 extends JFrame {
+public class GestoreCorsiJava1 extends JFrame implements WindowListener{
 	
 	private Dimension dimensioniSchermo = Toolkit.getDefaultToolkit().getScreenSize();
 	private Dimension dimensioniMinime = new Dimension(200,200);
@@ -44,21 +48,33 @@ public class GestoreCorsiJava1 extends JFrame {
 	private MenuInizialeJPanel pnlMenuIniziale;
 	private MenuAggiungiLavoratoreJPanel pnlMenuAggiungiLavoratore;
 	
+	private ImageIcon logo = new ImageIcon("logo.png");
+	
 	/**
 	 * E qui verranno salvati tutti i lavoratori ecc
 	 */
 	private ArrayList<Lavoratore> arrayLavoratori;
 	
-	public GestoreCorsiJava1() {
+	public GestoreCorsiJava1(JWindow splashScreen) {
 		super("Gestore Corsi di Formazione - Alpha 0.2");
 		
-		this.setIconImage(new ImageIcon("logo.png").getImage());
+//		SplashScreen splash = SplashScreen.getSplashScreen();
+//		System.out.println(splash);
+//		Graphics2D g2 = splash.createGraphics();
+//		
+//		g2.drawImage(logo.getImage(), (dimensioniSchermo.width-logo.getIconWidth())/2, (dimensioniSchermo.height-logo.getIconHeight())/2, logo.getIconWidth(), logo.getIconHeight(), logo.getImageObserver());
+//		
+	
+		
+		
+		this.setIconImage(logo.getImage());
 		
 		fileSalvataggio = new File("gestoreCorsiJava.gcj");
 		
 		arrayLavoratori = new ArrayList<Lavoratore>();
 		
 		leggi();
+		
 		
 		pnlDefault = new JPanel(new GridLayout(1,1));
 		pnlMenuIniziale = new MenuInizialeJPanel(this);
@@ -67,14 +83,18 @@ public class GestoreCorsiJava1 extends JFrame {
 		pnlDefault.add(pnlMenuIniziale);
 		this.getContentPane().add(pnlDefault);
 		
-		
+		this.addWindowListener(this);
 		this.setSize(dimensioniFinestra);
 		this.setExtendedState(JFrame.MAXIMIZED_BOTH);	
 		this.setLocation((dimensioniSchermo.width-dimensioniFinestra.width)/2, (dimensioniSchermo.height-dimensioniFinestra.height)/2);
 		this.setMinimumSize(dimensioniMinime);
-		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+		
+		splashScreen.setVisible(false);
+		splashScreen.dispose();
 		this.setVisible(true);
 		
+		this.toFront();
 		this.requestFocus();
 	}
 	
@@ -141,6 +161,60 @@ public class GestoreCorsiJava1 extends JFrame {
 		}
 		
 		System.out.println("Dimensione attuale array: "+arrayLavoratori.size());
+		
+	}
+
+
+	@Override
+	public void windowOpened(WindowEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+	@Override
+	public void windowClosing(WindowEvent e) {
+		// TODO Auto-generated method stub
+		
+		int x = JOptionPane.showConfirmDialog(null, "Vuoi davvero uscire?", "Uscita in corso", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
+		
+		if(x==0)
+			System.exit(0);
+		
+	}
+
+
+	@Override
+	public void windowClosed(WindowEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+	@Override
+	public void windowIconified(WindowEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+	@Override
+	public void windowDeiconified(WindowEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+	@Override
+	public void windowActivated(WindowEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+	@Override
+	public void windowDeactivated(WindowEvent e) {
+		// TODO Auto-generated method stub
 		
 	}
 	

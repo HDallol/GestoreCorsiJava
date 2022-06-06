@@ -13,6 +13,7 @@ import java.awt.event.MouseListener;
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
@@ -73,7 +74,7 @@ public class MenuInizialeJPanel extends JPanel {
 		filtriAttivi = false;
 		arrayLavoratoreConFiltri = new ArrayList<Lavoratore>();
 		txtBarraRicerca = new JTextField();
-		btnAggiungi = new CustomJButton("+",1.5,fontDefault);
+		btnAggiungi = new CustomJButton("+ Aggiungi",1.5,fontDefault);
 		lblTextoIniziale = new JLabel("Premi + per aggiungere");
 
 		pnlFiltri.setLayout(new BoxLayout(pnlFiltri, BoxLayout.Y_AXIS));
@@ -86,7 +87,7 @@ public class MenuInizialeJPanel extends JPanel {
 		lblTextoIniziale.setFont(fontDefault.deriveFont(50.0f));
 		lblTextoIniziale.setHorizontalAlignment(SwingConstants.CENTER);
 		lblTextoIniziale.setVerticalAlignment(SwingConstants.CENTER);
-		btnAggiungi.setPreferredSize(new Dimension(40,40));		//La preferred Size del bottone +, da cambiare nel caso
+		btnAggiungi.setPreferredSize(new Dimension(250,70));		//La preferred Size del bottone +, da cambiare nel caso
 
 
 		txtBarraRicerca.getDocument().addDocumentListener(new AreaDiTestoListener(txtBarraRicerca, "Cerca...", fontDefault));
@@ -98,7 +99,7 @@ public class MenuInizialeJPanel extends JPanel {
 		filtri();
 
 		pnlRicerca.add(txtBarraRicerca, BorderLayout.CENTER);
-		pnlRicerca.add(btnAggiungi, BorderLayout.EAST);
+		pnlRicerca.add(btnAggiungi, BorderLayout.WEST);
 		pnlRicerca.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 		pnlFiltri.setBorder(BorderFactory.createMatteBorder(0, 0, 0, 1, temaBackground.darker().darker()));
 
@@ -177,14 +178,14 @@ public class MenuInizialeJPanel extends JPanel {
 	 * Riporta il panel alla condizione iniziale
 	 */
 	public void reset() {
-		
+
 		arrayLavoratoreConFiltri.clear();
 		filtriAttivi = false;
-		
+
 		for(int i=0;i<arrayListFiltri.size();i++) {
 			arrayListFiltri.get(i).setSelected(false);
 		}
-		
+
 		txtBarraRicerca.setText("");
 		pnlAggiungi.aggiornaPanel();
 	}
@@ -198,7 +199,7 @@ public class MenuInizialeJPanel extends JPanel {
 		arrayListFiltri.add(aggiungiFiltro(arrayListFiltri.size(), new GestioneFiltroCorsiInScadenza()));
 		arrayListFiltri.add(aggiungiFiltro(arrayListFiltri.size(), new GestioneFiltroDaAggiornare()));
 
-		
+
 		//		for(int i=0;i<arrayFiltri.length;i++) {
 		//			arrayListFiltri.add(aggiungiFiltro(i, new ActionListener() {
 		//
@@ -465,10 +466,11 @@ public class MenuInizialeJPanel extends JPanel {
 			Color temaMouseEntered;
 			CustomJButton btnCancella;
 			JLabel lbl;
+			ArrayList<Lavoratore> arr;
 
 			public LavoratorePnl(int index) {
 
-				ArrayList<Lavoratore> arr;
+
 
 				if(filtriAttivi==false) {
 					arr = gestoreCorsi.getArrayLavoratori();
@@ -589,11 +591,18 @@ public class MenuInizialeJPanel extends JPanel {
 				@Override
 				public void actionPerformed(ActionEvent e) {
 					// TODO Auto-generated method stub
-					gestoreCorsi.getArrayLavoratori().remove(index);
-					pnlAggiungi.aggiornaPanel();
-					pnlAggiungi.revalidate();
-					pnlAggiungi.repaint();
-					gestoreCorsi.salva();
+
+					int x = JOptionPane.showConfirmDialog(null, "Vuoi davvero cancellare " + arr.get(index).getNome() +" "+arr.get(index).getCognome()+"?", "Attenzione", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
+
+					if(x==0) {
+						gestoreCorsi.getArrayLavoratori().remove(index);
+						pnlAggiungi.aggiornaPanel();
+						pnlAggiungi.revalidate();
+						pnlAggiungi.repaint();
+						gestoreCorsi.salva();
+					}
+
+
 
 				}
 
@@ -712,8 +721,8 @@ public class MenuInizialeJPanel extends JPanel {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			// TODO Auto-generated method stub
-		
-			
+
+
 			CustomJCheckBox cb = (CustomJCheckBox) e.getSource();
 
 			ArrayList<Lavoratore> arr = gestoreCorsi.getArrayLavoratori();
@@ -755,19 +764,19 @@ public class MenuInizialeJPanel extends JPanel {
 				filtriAttivi = false;
 				pnlAggiungi.aggiornaPanel();
 			}
-			
-			
+
+
 		}
-		
+
 	}
-	
+
 	public class GestioneFiltroDaAggiornare implements ActionListener{
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			// TODO Auto-generated method stub
-		
-			
+
+
 			CustomJCheckBox cb = (CustomJCheckBox) e.getSource();
 
 			ArrayList<Lavoratore> arr = gestoreCorsi.getArrayLavoratori();
@@ -813,10 +822,10 @@ public class MenuInizialeJPanel extends JPanel {
 				filtriAttivi = false;
 				pnlAggiungi.aggiornaPanel();
 			}
-			
-			
+
+
 		}
-		
+
 	}
-	
+
 }

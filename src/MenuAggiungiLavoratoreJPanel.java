@@ -304,9 +304,9 @@ public class MenuAggiungiLavoratoreJPanel extends JPanel{
 						gestoreCorsi.getPnlDefault().revalidate();
 						gestoreCorsi.getPnlDefault().repaint();
 						
-						gestoreCorsi.salva();
 
 					}
+					gestoreCorsi.salva();
 
 				}
 

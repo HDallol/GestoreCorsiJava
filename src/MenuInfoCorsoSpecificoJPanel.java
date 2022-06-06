@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.SwingConstants;
@@ -398,14 +399,19 @@ public class MenuInfoCorsoSpecificoJPanel extends JPanel {
 				@Override
 				public void actionPerformed(ActionEvent e) {
 					// TODO Auto-generated method stub
-
+					
 					if(corso.getData().size()>1) {
-
-						corso.rimuoviData(data);
-						aggiornaPanel();
-						reset();
 						
-						gestoreCorsi.salva();
+						int x = JOptionPane.showConfirmDialog(null, "Vuoi davvero cancellare la data "+data+"?", "Attenzione", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
+
+						if(x==0) {
+							corso.rimuoviData(data);
+							aggiornaPanel();
+							reset();
+							
+							gestoreCorsi.salva();
+						}
+						
 					}
 				}
 

@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
@@ -552,14 +553,20 @@ public class MenuInfoCorsiJPanel extends JPanel {
 				@Override
 				public void actionPerformed(ActionEvent e) {
 					// TODO Auto-generated method stub
-					lavoratore.getCorsiDiFormazioni().remove(arrCorsi.get(index));
-					arrCorsi.remove(index);
-					pnlAggiungi.aggiornaPanel();
-					pnlAggiungi.revalidate();
-					pnlAggiungi.repaint();
 					
-					gestoreCorsi.salva();
+					int x = JOptionPane.showConfirmDialog(null, "Vuoi davvero cancellare il corso "+arrCorsi.get(index).getNomeCorso()+"?", "Attenzione", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
+					
+					if(x==0) {
+						lavoratore.getCorsiDiFormazioni().remove(arrCorsi.get(index));
+						arrCorsi.remove(index);
+						pnlAggiungi.aggiornaPanel();
+						pnlAggiungi.revalidate();
+						pnlAggiungi.repaint();
+						
+						gestoreCorsi.salva();
 
+					}
+					
 				}
 
 			}
