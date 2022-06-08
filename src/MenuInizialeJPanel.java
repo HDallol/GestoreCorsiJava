@@ -11,6 +11,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
 import javax.swing.BorderFactory;
+import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -36,6 +37,7 @@ public class MenuInizialeJPanel extends JPanel {
 	private JPanel pnlRicerca;
 	private JPanel pnlFiltri;
 	private ScrollPaneJPanel pnlAggiungi;
+	private JPanel pnlOpzioni;
 
 	private JTextField txtBarraRicerca;
 	private CustomJButton btnAggiungi;
@@ -71,6 +73,8 @@ public class MenuInizialeJPanel extends JPanel {
 		pnlRicerca = new JPanel(new BorderLayout());
 		pnlFiltri = new JPanel();
 		pnlAggiungi = new ScrollPaneJPanel();
+		pnlOpzioni = new JPanel(new GridLayout(1,2,10,10));
+		
 		filtriAttivi = false;
 		arrayLavoratoreConFiltri = new ArrayList<Lavoratore>();
 		txtBarraRicerca = new JTextField();
@@ -81,6 +85,9 @@ public class MenuInizialeJPanel extends JPanel {
 
 		arrayJLabel = new ArrayList<JLabel>();
 
+		CustomJButton btnSalvaPdf = new CustomJButton("Salva tutti i lavoratori (PDF)");
+		CustomJButton btnSalvaTxt = new CustomJButton("Salva tutti i lavoratori (txt)");
+		
 		spListaLavoratori = new JScrollPane();
 		txtBarraRicerca.setBorder(BorderFactory.createLineBorder(temaFont, 1));
 		txtBarraRicerca.setFont(fontDefault);
@@ -89,12 +96,18 @@ public class MenuInizialeJPanel extends JPanel {
 		lblTextoIniziale.setVerticalAlignment(SwingConstants.CENTER);
 		btnAggiungi.setPreferredSize(new Dimension(250,70));		//La preferred Size del bottone +, da cambiare nel caso
 
-
+		btnSalvaPdf.addActionListener(new GestioneBtnSalvaPdf());
+		btnSalvaTxt.addActionListener(new GestioneBtnSalvaTxt());
+		
+		pnlOpzioni.setBorder(BorderFactory.createEmptyBorder(5, 10, 10, 10));
+		
 		txtBarraRicerca.getDocument().addDocumentListener(new AreaDiTestoListener(txtBarraRicerca, "Cerca...", fontDefault));
 		txtBarraRicerca.getDocument().addDocumentListener(new GestioneBarraRicerca(txtBarraRicerca));
 		txtBarraRicerca.addComponentListener(new FontAdj(fontDefault, 1.5));
 		lblTextoIniziale.addComponentListener(new FontAdj(fontDefault, 8, 60,30));
 		btnAggiungi.addActionListener(new GestioneAggiungi());
+		btnSalvaPdf.addComponentListener(new FontAdj(fontDefault,2));
+		btnSalvaTxt.addComponentListener(new FontAdj(fontDefault,2));
 		pnlAggiungi.setBorder(BorderFactory.createEmptyBorder(0, 5, 10, 5));		
 		filtri();
 
@@ -106,12 +119,19 @@ public class MenuInizialeJPanel extends JPanel {
 		//pnlAggiungi.add(lblTextoIniziale);
 		pnlAggiungi.aggiornaPanel();
 
+		pnlOpzioni.setOpaque(false);
+		
+		pnlOpzioni.add(btnSalvaPdf);
+	
+		pnlOpzioni.add(btnSalvaTxt);
+		
 		cambiaColore(temaBackground, temaFont);
 
 
 		this.add(pnlRicerca, BorderLayout.NORTH);
 		this.add(pnlFiltri, BorderLayout.WEST);
 		this.add(pnlAggiungi, BorderLayout.CENTER);
+		this.add(pnlOpzioni, BorderLayout.SOUTH);
 	}
 
 	public void aggiungiScrollPane() {
@@ -826,6 +846,33 @@ public class MenuInizialeJPanel extends JPanel {
 
 		}
 
+	}
+	
+	
+	public class GestioneBtnSalvaPdf implements ActionListener {
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			// TODO Auto-generated method stub
+			
+			Thread t = new Thread(gestoreCorsi.new SalvaPdfThread());
+			t.start();
+			
+		}
+		
+	}
+	
+	public class GestioneBtnSalvaTxt implements ActionListener {
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			// TODO Auto-generated method stub
+			
+			Thread t = new Thread(gestoreCorsi.new SalvaTxtThread());
+			t.start();
+			
+		}
+		
 	}
 
 }

@@ -191,5 +191,16 @@ public class Lavoratore implements Serializable{
 		return n;
 	}
 	
+	public ArrayList<CorsoDiFormazione> getCorsi(int tipologia) {
+		
+		ArrayList<CorsoDiFormazione> arr = new ArrayList<CorsoDiFormazione>();
+		
+		for(int i=0;i<corsiDiFormazione.size();i++) 
+			if(corsiDiFormazione.get(i).getTipologia()==tipologia)
+				arr.add(corsiDiFormazione.get(i));
+		
+		return arr;
+	}
+	
 	
 }

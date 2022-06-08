@@ -90,7 +90,7 @@ public class MenuAggiungiCorsoJPanel extends JPanel{
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
-				cbGiorno.setBorder(BorderFactory.createLineBorder(Color.black, 1));
+				cbGiorno.setBorder(null);
 			}
 
 		});
@@ -321,25 +321,25 @@ public class MenuAggiungiCorsoJPanel extends JPanel{
 
 				if(nomeCorso.length()==0) {
 					controllo=true;
-					txtNomeCorso.setBorder(BorderFactory.createLineBorder(Color.red, 1));
+					txtNomeCorso.setBorder(BorderFactory.createLineBorder(Color.red, 3));
 				}
 
 				if(mese==2) {
 					if(anno%400==0 || (anno%4==0 && anno%100!=0)) {
 						if(!(giorno<=29)) {
 							controllo=true;
-							cbGiorno.setBorder(BorderFactory.createLineBorder(Color.RED, 2));
+							cbGiorno.setBorder(BorderFactory.createLineBorder(Color.RED, 3));
 						}
 					}
 					else if(!(giorno<=28)) {
 						controllo=true;
-						cbGiorno.setBorder(BorderFactory.createLineBorder(Color.RED, 2));
+						cbGiorno.setBorder(BorderFactory.createLineBorder(Color.RED, 3));
 					}
 				}
 				else if(mese==4 || mese==6 || mese==9 || mese==11) {
 					if(!(giorno<=30)) {
 						controllo=true;
-						cbGiorno.setBorder(BorderFactory.createLineBorder(Color.RED, 2));
+						cbGiorno.setBorder(BorderFactory.createLineBorder(Color.RED, 3));
 					}
 				}
 				int numeroOre = 0;
@@ -348,13 +348,13 @@ public class MenuAggiungiCorsoJPanel extends JPanel{
 
 					if(numeroOre<1) {
 						controllo=true;
-						txtNOre.setBorder(BorderFactory.createLineBorder(Color.red, 1));
+						txtNOre.setBorder(BorderFactory.createLineBorder(Color.red, 3));
 					}
 
 				}
 				catch(NumberFormatException e1) {
 					controllo=true;
-					txtNOre.setBorder(BorderFactory.createLineBorder(Color.red, 1));
+					txtNOre.setBorder(BorderFactory.createLineBorder(Color.red, 3));
 				}
 
 				int scadenzaInt=0;
@@ -364,19 +364,19 @@ public class MenuAggiungiCorsoJPanel extends JPanel{
 
 					if(scadenzaInt<1) {
 						controllo=true;
-						txtScadenza.setBorder(BorderFactory.createLineBorder(Color.RED, 1));
+						txtScadenza.setBorder(BorderFactory.createLineBorder(Color.RED, 3));
 					}
 				}
 				catch(NumberFormatException e1) {
 					controllo=true;
-					txtScadenza.setBorder(BorderFactory.createLineBorder(Color.red, 1));
+					txtScadenza.setBorder(BorderFactory.createLineBorder(Color.red, 3));
 				}
 
 
 				boolean completato=false;
 				if(rbtnAffermativo.isSelected()==false && rbtnNegativo.isSelected()==false) {
 					controllo=true;
-					pnlCompletato.setBorder(BorderFactory.createLineBorder(Color.RED, 1));
+					pnlCompletato.setBorder(BorderFactory.createLineBorder(Color.RED, 3));
 				}
 				else {
 					if(rbtnAffermativo.isSelected()==true) 
@@ -404,7 +404,7 @@ public class MenuAggiungiCorsoJPanel extends JPanel{
 				String nomeCorso = txtNomeCorso.getText().trim();
 				if(nomeCorso.length()==0) {
 					controllo=true;
-					txtNomeCorso.setBorder(BorderFactory.createLineBorder(Color.red, 1));
+					txtNomeCorso.setBorder(BorderFactory.createLineBorder(Color.red, 3));
 				}
 				String scadenza = txtScadenza.getText().trim();
 				int scadenzaInt=0;
@@ -414,18 +414,18 @@ public class MenuAggiungiCorsoJPanel extends JPanel{
 
 					if(scadenzaInt<1) {
 						controllo=true;
-						txtScadenza.setBorder(BorderFactory.createLineBorder(Color.RED, 1));
+						txtScadenza.setBorder(BorderFactory.createLineBorder(Color.RED, 3));
 					}
 				}
 				catch(NumberFormatException e1) {
 					controllo=true;
-					txtScadenza.setBorder(BorderFactory.createLineBorder(Color.red, 1));
+					txtScadenza.setBorder(BorderFactory.createLineBorder(Color.red, 3));
 				}
 
 				boolean completato=false;
 				if(rbtnAffermativo.isSelected()==false && rbtnNegativo.isSelected()==false) {
 					controllo=true;
-					pnlCompletato.setBorder(BorderFactory.createLineBorder(Color.RED, 1));
+					pnlCompletato.setBorder(BorderFactory.createLineBorder(Color.RED, 3));
 				}
 				else {
 					if(rbtnAffermativo.isSelected()==true) 

@@ -194,22 +194,22 @@ public class MenuAggiungiLavoratoreJPanel extends JPanel{
 		boolean controllo=false;
 
 		if(txtNome.getText().length()==0 || txtNome.getText().length()>20) {
-			txtNome.setBorder(BorderFactory.createLineBorder(Color.RED, 1));
+			txtNome.setBorder(BorderFactory.createLineBorder(Color.RED, 3));
 			controllo = true;
 		}
 
 		if(txtCognome.getText().length()==0 || txtCognome.getText().length()>20) {
-			txtCognome.setBorder(BorderFactory.createLineBorder(Color.RED, 1));
+			txtCognome.setBorder(BorderFactory.createLineBorder(Color.RED, 3));
 			controllo = true;
 		}
 
-		if(txtCodiceFiscale.getText().length()==0) {									//ATTENZIONE: Modificare la lunghezza effettiva del codice fiscale
-			txtCodiceFiscale.setBorder(BorderFactory.createLineBorder(Color.RED, 1));
+		if(txtCodiceFiscale.getText().length()!=16) {									//ATTENZIONE: Modificare la lunghezza effettiva del codice fiscale
+			txtCodiceFiscale.setBorder(BorderFactory.createLineBorder(Color.RED, 3));
 			controllo = true;
 		}
 
 		if(txtIndirizzo.getText().length()==0 || txtIndirizzo.getText().length()>40) {
-			txtIndirizzo.setBorder(BorderFactory.createLineBorder(Color.RED, 1));
+			txtIndirizzo.setBorder(BorderFactory.createLineBorder(Color.RED, 3));
 			controllo = true;
 		}
 
@@ -232,7 +232,7 @@ public class MenuAggiungiLavoratoreJPanel extends JPanel{
 				else
 					controllo=true;
 
-				txtCodiceFiscale.setBorder(BorderFactory.createLineBorder(Color.RED, 1));
+				txtCodiceFiscale.setBorder(BorderFactory.createLineBorder(Color.RED, 3));
 				break;
 			}
 		}

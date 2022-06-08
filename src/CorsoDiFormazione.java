@@ -138,7 +138,6 @@ public class CorsoDiFormazione implements Serializable{
 
 
 
-
 	/**
 	 * @param scadenzaAnni the scadenzaAnni to set
 	 */
@@ -162,6 +161,28 @@ public class CorsoDiFormazione implements Serializable{
 		aggiornaStato();
 	}
 
+	public String getStringaStato() {
+		
+		String s = "";
+
+		switch(stato) {
+		case 0:
+			s = "Valido";
+			break;
+		case 1:
+			s="In scadenza";
+			break;
+		case 2:
+			s="Scaduto";
+			break;
+		case 3:
+			s="Da completare";
+			break;
+		}
+		
+		return s;
+	}
+	
 	public void setCompletato(boolean completato) {
 		this.completato = completato;
 		aggiornaStato();

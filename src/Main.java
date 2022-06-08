@@ -1,9 +1,20 @@
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.Toolkit;
+import java.io.File;
+import java.io.IOException;
+import java.util.Calendar;
 
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JWindow;
+
+import org.apache.pdfbox.pdmodel.PDDocument;
+import org.apache.pdfbox.pdmodel.PDPage;
+import org.apache.pdfbox.pdmodel.PDPageContentStream;
+import org.apache.pdfbox.pdmodel.font.PDFont;
+import org.apache.pdfbox.pdmodel.font.PDType1Font;
+import org.apache.pdfbox.pdmodel.graphics.image.PDImageXObject;
 
 /**
  * Autori: Marco Dall'O' Polveni, Stefano Pacchin
@@ -26,6 +37,9 @@ public class Main {
 		ImageIcon image = new ImageIcon("SplashScreen.png");
 		JWindow splash = new JWindow();
 
+		
+		
+		
 		if(image!=null) {
 
 			splash.setBounds( (screen.width-image.getIconWidth())/2	, (screen.height-image.getIconHeight())/2, image.getIconWidth(), image.getIconHeight());
@@ -41,7 +55,9 @@ public class Main {
 			}
 
 		}
-
+		
+		
+		
 		new GestoreCorsiJava1(splash);
 	}
 

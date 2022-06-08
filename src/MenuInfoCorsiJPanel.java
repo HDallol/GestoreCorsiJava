@@ -126,7 +126,7 @@ public class MenuInfoCorsiJPanel extends JPanel {
 		pnlAggiungi = new ScrollPaneJPanel();
 
 		txtBarraRicerca = new JTextField();
-		btnAggiungi = new CustomJButton("+",1.5,fontDefault);
+		btnAggiungi = new CustomJButton("+ Aggiungi",1.5,fontDefault);
 		lblTextoIniziale = new JLabel("Premi + per aggiungere");
 		
 		
@@ -142,7 +142,7 @@ public class MenuInfoCorsiJPanel extends JPanel {
 		lblTextoIniziale.setFont(fontDefault.deriveFont(50.0f));
 		lblTextoIniziale.setHorizontalAlignment(SwingConstants.CENTER);
 		lblTextoIniziale.setVerticalAlignment(SwingConstants.CENTER);
-		btnAggiungi.setPreferredSize(new Dimension(40,40));		//La preferred Size del bottone +, da cambiare nel caso
+		btnAggiungi.setPreferredSize(new Dimension(220,70));		//La preferred Size del bottone +, da cambiare nel caso
 
 
 		txtBarraRicerca.getDocument().addDocumentListener(new AreaDiTestoListener(txtBarraRicerca, "Cerca...", fontDefault));
@@ -156,7 +156,7 @@ public class MenuInfoCorsiJPanel extends JPanel {
 		
 		pnlRicerca.add(pnlTipoCorso, BorderLayout.NORTH);
 		pnlRicerca.add(txtBarraRicerca, BorderLayout.CENTER);
-		pnlRicerca.add(btnAggiungi, BorderLayout.EAST);
+		pnlRicerca.add(btnAggiungi, BorderLayout.WEST);
 		pnlRicerca.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 
 		//pnlAggiungi.add(lblTextoIniziale);
