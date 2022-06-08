@@ -74,7 +74,7 @@ public class MenuInizialeJPanel extends JPanel {
 		pnlFiltri = new JPanel();
 		pnlAggiungi = new ScrollPaneJPanel();
 		pnlOpzioni = new JPanel(new GridLayout(1,2,10,10));
-		
+
 		filtriAttivi = false;
 		arrayLavoratoreConFiltri = new ArrayList<Lavoratore>();
 		txtBarraRicerca = new JTextField();
@@ -87,7 +87,7 @@ public class MenuInizialeJPanel extends JPanel {
 
 		CustomJButton btnSalvaPdf = new CustomJButton("Salva tutti i lavoratori (PDF)");
 		CustomJButton btnSalvaTxt = new CustomJButton("Salva tutti i lavoratori (txt)");
-		
+
 		spListaLavoratori = new JScrollPane();
 		txtBarraRicerca.setBorder(BorderFactory.createLineBorder(temaFont, 1));
 		txtBarraRicerca.setFont(fontDefault);
@@ -98,9 +98,9 @@ public class MenuInizialeJPanel extends JPanel {
 
 		btnSalvaPdf.addActionListener(new GestioneBtnSalvaPdf());
 		btnSalvaTxt.addActionListener(new GestioneBtnSalvaTxt());
-		
+
 		pnlOpzioni.setBorder(BorderFactory.createEmptyBorder(5, 10, 10, 10));
-		
+
 		txtBarraRicerca.getDocument().addDocumentListener(new AreaDiTestoListener(txtBarraRicerca, "Cerca...", fontDefault));
 		txtBarraRicerca.getDocument().addDocumentListener(new GestioneBarraRicerca(txtBarraRicerca));
 		txtBarraRicerca.addComponentListener(new FontAdj(fontDefault, 1.5));
@@ -120,11 +120,11 @@ public class MenuInizialeJPanel extends JPanel {
 		pnlAggiungi.aggiornaPanel();
 
 		pnlOpzioni.setOpaque(false);
-		
+
 		pnlOpzioni.add(btnSalvaPdf);
-	
+
 		pnlOpzioni.add(btnSalvaTxt);
-		
+
 		cambiaColore(temaBackground, temaFont);
 
 
@@ -847,32 +847,43 @@ public class MenuInizialeJPanel extends JPanel {
 		}
 
 	}
-	
-	
+
+
 	public class GestioneBtnSalvaPdf implements ActionListener {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			// TODO Auto-generated method stub
-			
-			Thread t = new Thread(gestoreCorsi.new SalvaPdfThread());
-			t.start();
-			
+
+			if(gestoreCorsi.getArrayLavoratori().size()>0) {
+				Thread t = new Thread(gestoreCorsi.new SalvaPdfThread());
+				t.start();
+			}
+			else {
+				JOptionPane.showMessageDialog(null, "Non è presente nessun lavoratore", "Errore", JOptionPane.WARNING_MESSAGE);
+			}
+
 		}
-		
+
 	}
-	
+
 	public class GestioneBtnSalvaTxt implements ActionListener {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			// TODO Auto-generated method stub
-			
-			Thread t = new Thread(gestoreCorsi.new SalvaTxtThread());
-			t.start();
-			
+
+			if(gestoreCorsi.getArrayLavoratori().size()>0) {
+				Thread t = new Thread(gestoreCorsi.new SalvaTxtThread());
+				t.start();
+
+			}
+			else {
+				JOptionPane.showMessageDialog(null, "Non è presente nessun lavoratore", "Errore", JOptionPane.WARNING_MESSAGE);
+
+			}
 		}
-		
+
 	}
 
 }
